@@ -17,7 +17,7 @@ public class PhongService {
 
 
     //    Chèn dữ liệu phòng
-    public static void addPhong(Phong phong, DoublyLinkedListPhong listPhong) {
+    public static void addPhong(Phong phong) {
         String sql = "INSERT INTO Phong (DienTich, GiaThue, TrangThai, MoTa, MaQuanLy) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -31,15 +31,12 @@ public class PhongService {
 
             // Use executeUpdate for INSERT/UPDATE/DELETE operations
             ps.executeUpdate();
-            listPhong.addLast(phong);
 
         } catch (SQLException e) {
             // Print the stack trace for debugging
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-
-        // Add the phong object to the list after successful insertion into the database
     }
 
 
@@ -71,7 +68,7 @@ public class PhongService {
 
     public static void getAllPhong(DoublyLinkedListPhong listPhong) {
         String sql = "SELECT * FROM Phong";
-        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Phong phong = new Phong();
@@ -113,11 +110,33 @@ public class PhongService {
 
             if (ps.executeUpdate() > 0) {
                 System.out.println("Xoá phòng thành công!");
-            }else  {
+            } else {
                 System.out.println("Xoá phòng không thành công!");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Phong getLastRow() {
+        String sql = "SELECT * FROM Phong ORDER BY MaPhong DESC LIMIT 1;";
+        Phong phong = null;
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                phong = new Phong();
+                phong.setMaPhong(resultSet.getInt("MaPhong"));
+                phong.setDienTich(resultSet.getFloat("DienTich"));
+                phong.setGiaThue(resultSet.getFloat("GiaThue"));
+                phong.setTrangThai(resultSet.getString("TrangThai"));
+                phong.setMoTa(resultSet.getString("MoTa"));
+                phong.setMaQuanLy(resultSet.getInt("MaQuanLy"));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Xử lý ngoại lệ
+        }
+        return phong;
     }
 }

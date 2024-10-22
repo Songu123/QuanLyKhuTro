@@ -48,6 +48,7 @@ public class PhongController {
 
     public static Phong nhapThongTin() {
         System.out.println("hello các bạn");
+        Phong phong;
         float dienTich;
 
         // Nhập diện tích
@@ -92,10 +93,10 @@ public class PhongController {
                 chon = Integer.parseInt(sc.nextLine());
 
                 if (chon == 1) {
-                    trangThai = "Trong";
+                    trangThai = "Trống";
                     break;
                 } else if (chon == 2) {
-                    trangThai = "CoNguoi";
+                    trangThai = "Có Người";
                     break;
                 } else {
                     System.out.println("Nhập sai! Vui lòng nhập lại (1 hoặc 2)!");
@@ -137,11 +138,8 @@ public class PhongController {
             }
         }
 
-        System.out.println("Xin chào" + dienTich + " " +  giaThue + " " +  trangThai + " " +  moTa + " " +  maQuanLy);
-
-        // Tạo đối tượng Phong và trả về
-        Phong phong = new Phong(dienTich, giaThue, trangThai, moTa, maQuanLy);
         System.out.println("Đã nhập thành công thông tin phòng:");
+        phong =  new Phong(dienTich, giaThue, trangThai, moTa, maQuanLy);
         System.out.println(phong);
         return phong;
     }
@@ -150,8 +148,9 @@ public class PhongController {
     public static void addPhong() {
         try {
             Phong phong = nhapThongTin();
-            PhongService.addPhong(phong, listPhong);
-        }catch (Exception e) {
+            PhongService.addPhong(phong);
+            listPhong.addLast(PhongService.getLastRow());
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -174,7 +173,7 @@ public class PhongController {
             id = Integer.parseInt(sc.nextLine());
             hienThiTieuDePhong();
             listPhong.searchPhong(id);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -186,7 +185,7 @@ public class PhongController {
 
             listPhong.deletePhong(id);
             PhongService.deletePhong(id);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
@@ -200,21 +199,21 @@ public class PhongController {
             Phong phong = nhapThongTin();
             listPhong.updatePhong(id, phong);
             PhongService.updatePhong(phong, id);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
     }
 
     public static void printListPhong() {
-        try{
-            if (listPhong.getSize() > 0){
+        try {
+            if (listPhong.getSize() > 0) {
                 hienThiTieuDePhong();
                 listPhong.printListPhong();
-            }else {
+            } else {
                 System.out.println("Danh sách phòng rỗng!");
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
