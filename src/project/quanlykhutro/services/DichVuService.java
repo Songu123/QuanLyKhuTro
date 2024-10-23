@@ -34,7 +34,7 @@ public class DichVuService {
         String sql = "SELECT * FROM DichVu WHERE MaDichVu = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, maDichVu);
-            ps.executeUpdate();
+            ps.executeQuery();
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 dichVu = new DichVu();

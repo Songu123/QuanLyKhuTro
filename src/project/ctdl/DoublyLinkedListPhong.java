@@ -47,7 +47,7 @@ public class DoublyLinkedListPhong {
     public NodePhong searchPhong(int maPhong) {
         NodePhong current = first;
         boolean found = false; // Biến để theo dõi xem phòng có được tìm thấy hay không
-
+        PhongController.hienThiTieuDePhong();
         while (current != null) {
             if (current.data.getMaPhong() == maPhong) { // So sánh mã phòng
                 System.out.printf("| %-8d | %-20.2f | %-8.2f | %-8s | %-35s | %-8d |\n", current.data.getMaPhong(),

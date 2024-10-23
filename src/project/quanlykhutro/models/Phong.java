@@ -44,11 +44,7 @@ public class Phong {
     }
 
     public String getTrangThai() {
-        if (trangThai.equalsIgnoreCase("Trong")){
-            return "Trống";
-        }else {
-            return "Có Nguời";
-        }
+       return trangThai;
     }
 
     public void setTrangThai(String trangThai) {
