@@ -13,7 +13,7 @@ public class HoaDon {
     public HoaDon() {
     }
 
-    public HoaDon(int maHoaDon, int maHopDong, LocalDate ngayPhatHanh, LocalDate ngayDenHan, float tongTien, String trangThai) {
+    public HoaDon(int maHopDong, LocalDate ngayPhatHanh, LocalDate ngayDenHan, float tongTien, String trangThai) {
         this.maHoaDon = maHoaDon;
         this.maHopDong = maHopDong;
         this.ngayPhatHanh = ngayPhatHanh;
