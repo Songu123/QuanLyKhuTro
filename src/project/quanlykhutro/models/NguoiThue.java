@@ -7,14 +7,14 @@ public class NguoiThue {
     private int maNguoiThue;
     private String ten;
     private LocalDate ngaySinh;
-    private byte gioiTinh;
+    private String gioiTinh;
     private String diaChi;
     private String soDienThoai;
 
     public NguoiThue() {
     }
 
-    public NguoiThue(int maNguoiThue, String ten, LocalDate ngaySinh, byte gioiTinh, String diaChi, String soDienThoai) {
+    public NguoiThue(int maNguoiThue, String ten, LocalDate ngaySinh, String gioiTinh, String diaChi, String soDienThoai) {
         this.maNguoiThue = maNguoiThue;
         this.ten = ten;
         this.ngaySinh = ngaySinh;
@@ -23,11 +23,19 @@ public class NguoiThue {
         this.soDienThoai = soDienThoai;
     }
 
-    public byte getGioiTinh() {
+    public NguoiThue(String ten, LocalDate ngaySinh, String gioiTinh, String diaChi, String soDienThoai) {
+        this.ten = ten;
+        this.ngaySinh = ngaySinh;
+        this.gioiTinh = gioiTinh;
+        this.diaChi = diaChi;
+        this.soDienThoai = soDienThoai;
+    }
+
+    public String getGioiTinh() {
         return gioiTinh;
     }
 
-    public void setGioiTinh(byte gioiTinh) {
+    public void setGioiTinh(String gioiTinh) {
         this.gioiTinh = gioiTinh;
     }
 

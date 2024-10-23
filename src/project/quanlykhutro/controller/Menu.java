@@ -62,6 +62,11 @@ public class Menu {
         System.out.println("| 2. Xem danh sách hợp đồng                         |");
         System.out.println("| 3. Gia hạn hợp đồng                               |");
         System.out.println("| 4. Tìm kiếm hợp đồng                              |");
+        System.out.println("| 5. Chỉnh sửa hợp đồng                             |");
+        System.out.println("| 6. Xóa hợp đồng                                   |");
+        System.out.println("| 7. Xuất thông tin hợp đồng ra file                |");
+        System.out.println("| 8. Xem chi tiết hợp đồng                          |");
+        System.out.println("| 9. Quản lý thanh toán hợp đồng                    |");
         System.out.println("| 0. Quay lại                                       |");
         System.out.println("+---------------------------------------------------+");
     }

@@ -1,8 +1,9 @@
 package project.quanlykhutro.services;
 
+import project.ctdl.DoublyLinkedListNguoiThue;
 import project.quanlykhutro.dao.DAO;
 import project.quanlykhutro.models.NguoiThue;
-import project.quanlykhutro.models.Phong;
+import project.quanlykhutro.models.NguoiThue;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,28 +17,38 @@ import java.util.List;
 import java.util.Locale;
 
 public class NguoiThueService {
-    public DAO dao = new DAO();
-    public Connection conn = dao.connectionDB();
+    public static DAO dao = new DAO();
+    public static Connection conn = dao.connectionDB();
     public DateFormat format  = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
-    public void addNguoiThue(NguoiThue nguoiThue){
-        String sql = "INSERT INTO NguoiThue VALUES (?, ?, ?, ?, ?)";
-//        Date date = format.parse(nguoiThue.getNgaySinh());
-        try{
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, nguoiThue.getTen());
-            ps.setDate(2, java.sql.Date.valueOf(nguoiThue.getNgaySinh()) );
-            ps.setByte(3, nguoiThue.getGioiTinh());
-            ps.setString(4, nguoiThue.getDiaChi());
-            ps.setString(5, nguoiThue.getSoDienThoai());
-            ps.executeUpdate();
+    public static void addNguoiThue(NguoiThue nguoiThue){
+            // Nếu bảng có cột tự động tăng, bạn cần chỉ định cụ thể các cột trong câu lệnh SQL
+            String sql = "INSERT INTO NguoiThue (Ten, NgaySinh, GioiTinh, DiaChi, SoDienThoai) VALUES (?, ?, ?, ?, ?)";
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            try {
+                PreparedStatement ps = conn.prepareStatement(sql);
+
+                // Thiết lập các giá trị cho các cột
+                ps.setString(1, nguoiThue.getTen());
+
+                // Chuyển đổi LocalDate thành java.sql.Date
+                ps.setDate(2, java.sql.Date.valueOf(nguoiThue.getNgaySinh()));
+
+                ps.setString(3, nguoiThue.getGioiTinh());
+                ps.setString(4, nguoiThue.getDiaChi());
+                ps.setString(5, nguoiThue.getSoDienThoai());
+
+                // Thực thi lệnh SQL
+                ps.executeUpdate();
+
+            } catch (SQLException e) {
+                // Xử lý lỗi SQL
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
     }
 
-    public NguoiThue getNguoiThueById(int maNguoiThue) {
+    public static NguoiThue getNguoiThueById(int maNguoiThue) {
         NguoiThue nguoiThue = null;
         String sql = "SELECT * FROM NguoiThue WHERE MaNguoiThue = ?";
         try(PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -49,7 +60,7 @@ public class NguoiThueService {
                 nguoiThue.setMaNguoiThue(rs.getInt("MaNguoiThue"));
                 nguoiThue.setTen(rs.getString("Ten"));
                 nguoiThue.setNgaySinh(rs.getDate("NgaySinh").toLocalDate());
-                nguoiThue.setGioiTinh(rs.getByte("GioiTinh"));
+                nguoiThue.setGioiTinh(rs.getString("GioiTinh"));
                 nguoiThue.setDiaChi(rs.getString("DiaChi"));
                 nguoiThue.setSoDienThoai(rs.getString("SoDienThoai"));
             }
@@ -59,9 +70,8 @@ public class NguoiThueService {
         return nguoiThue;
     }
 
-    public List<NguoiThue> getListAllNguoiThue() {
+    public static void getListAllNguoiThue(DoublyLinkedListNguoiThue listNguoiThue) {
         String sql = "SELECT * FROM NguoiThue";
-        List<NguoiThue> listNguoiThue = new ArrayList<>();
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -70,25 +80,25 @@ public class NguoiThueService {
                 nguoiThue.setMaNguoiThue(rs.getInt("MaNguoiThue"));
                 nguoiThue.setTen(rs.getString("Ten"));
                 nguoiThue.setNgaySinh(rs.getDate("NgaySinh").toLocalDate());
-                nguoiThue.setGioiTinh(rs.getByte("GioiTinh"));
+                nguoiThue.setGioiTinh(rs.getString("GioiTinh"));
                 nguoiThue.setDiaChi(rs.getString("DiaChi"));
                 nguoiThue.setSoDienThoai(rs.getString("SoDienThoai"));
 
-                listNguoiThue.add(nguoiThue);
+                listNguoiThue.addLast(nguoiThue);
+                System.out.println("Thêm thành công!");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return listNguoiThue;
     }
 
-    public void updateNguoiThue(NguoiThue nguoiThue, int maNguoiThue) {
-        String sql = "UPDATE NguoiThue SET MaNguoiThue = ?, Ten = ?, NgaySinh = ?, GioiTinh = ?, DiaChi = ?, SoDienThoai = ?  WHERE MaNguoiThue = ?";
+    public static void updateNguoiThue(NguoiThue nguoiThue, int maNguoiThue) {
+        String sql = "UPDATE NguoiThue SET Ten = ?, NgaySinh = ?, GioiTinh = ?, DiaChi = ?, SoDienThoai = ?  WHERE MaNguoiThue = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, nguoiThue.getTen());
             ps.setDate(2,  java.sql.Date.valueOf(nguoiThue.getNgaySinh()));
-            ps.setByte(3, nguoiThue.getGioiTinh());
+            ps.setString(3, nguoiThue.getGioiTinh());
             ps.setString(4, nguoiThue.getDiaChi());
             ps.setString(5, nguoiThue.getSoDienThoai());
             ps.setInt(6, maNguoiThue);
@@ -98,7 +108,7 @@ public class NguoiThueService {
         }
     }
 
-    public void deleteNguoiThue(int maNguoiThue) {
+    public static void deleteNguoiThue(int maNguoiThue) {
         String sql = "DELETE FROM NguoiThue WHERE MaNguoiThue = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -114,4 +124,25 @@ public class NguoiThueService {
         }
     }
 
+    public static NguoiThue getLastRow() {
+        String sql = "SELECT * FROM NguoiThue ORDER BY MaNguoiThue DESC LIMIT 1;";
+        NguoiThue nguoiThue = null;
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                nguoiThue = new NguoiThue();
+                nguoiThue.setMaNguoiThue(resultSet.getInt("MaNguoiThue"));
+                nguoiThue.setTen(resultSet.getString("Ten"));
+                nguoiThue.setNgaySinh(resultSet.getDate("NgaySinh").toLocalDate());
+                nguoiThue.setGioiTinh(resultSet.getString("GioiTinh"));
+                nguoiThue.setDiaChi(resultSet.getString("DiaChi"));
+                nguoiThue.setSoDienThoai(resultSet.getString("SoDienThoai"));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return nguoiThue;
+    }
 }
