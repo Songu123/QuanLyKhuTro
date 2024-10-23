@@ -5,8 +5,7 @@ public class DichVu {
     private String tenDichVu;
     private float donGia;
 
-    public DichVu(int maDichVu, String tenDichVu, float donGia) {
-        this.maDichVu = maDichVu;
+    public DichVu(String tenDichVu, float donGia) {
         this.tenDichVu = tenDichVu;
         this.donGia = donGia;
     }

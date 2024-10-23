@@ -11,8 +11,7 @@ public class HopDong {
     private float giaThueHopDong;
     private float tienCoc;
 
-    public HopDong(int maHopDong, int maPhong, int maNguoiThue, LocalDate ngayBatDau, LocalDate ngayKetThuc, float giaThueHopDong, float tienCoc) {
-        this.maHopDong = maHopDong;
+    public HopDong(int maPhong, int maNguoiThue, LocalDate ngayBatDau, LocalDate ngayKetThuc, float giaThueHopDong, float tienCoc) {
         this.maPhong = maPhong;
         this.maNguoiThue = maNguoiThue;
         this.ngayBatDau = ngayBatDau;
@@ -79,4 +78,10 @@ public class HopDong {
     public void setTienCoc(float tienCoc) {
         this.tienCoc = tienCoc;
     }
+
+    public void giaHan(int thangGiaHan) {
+        LocalDate newEndDate = this.ngayKetThuc.plusMonths(thangGiaHan);
+        this.ngayKetThuc = newEndDate;
+    }
+
 }

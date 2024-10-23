@@ -46,17 +46,17 @@ public class DoublyLinkedListPhong {
 
     public NodePhong searchPhong(int maPhong) {
         NodePhong current = first;
-        boolean found = false; // Biến để theo dõi xem phòng có được tìm thấy hay không
-        PhongController.hienThiTieuDePhong();
+        boolean found = false;
+
         while (current != null) {
-            if (current.data.getMaPhong() == maPhong) { // So sánh mã phòng
+            if (current.data.getMaPhong() == maPhong) {
                 System.out.printf("| %-8d | %-20.2f | %-8.2f | %-8s | %-35s | %-8d |\n", current.data.getMaPhong(),
                         current.data.getDienTich(), current.data.getGiaThue(), current.data.getTrangThai(),
                         current.data.getMoTa(), current.data.getMaQuanLy());
-                found = true; // Đánh dấu là đã tìm thấy phòng
-                break; // Thoát vòng lặp khi tìm thấy phòng
+                found = true;
+                break;
             }
-            current = current.next; // Di chuyển đến nút tiếp theo trong danh sách
+            current = current.next;
         }
 
         if (!found) {

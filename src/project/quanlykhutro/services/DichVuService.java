@@ -1,6 +1,8 @@
 package project.quanlykhutro.services;
 
+import project.ctdl.DoublyLinkedListDichVu;
 import project.quanlykhutro.dao.DAO;
+import project.quanlykhutro.models.DichVu;
 import project.quanlykhutro.models.DichVu;
 
 import java.sql.Connection;
@@ -14,9 +16,9 @@ public class DichVuService {
     public static DAO dao = new DAO();
     public static Connection conn = dao.connectionDB();
 
-    public void addDichVu(DichVu dichVu) {
+    public static void addDichVu(DichVu dichVu) {
         String sql = "INSERT INTO DichVu VALUES (?, ?, ?)";
-//        Date date = format.parse(nguoiThue.getNgaySinh());
+//        Date date = format.parse(dichVu.getNgaySinh());
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, dichVu.getMaDichVu());
@@ -48,9 +50,8 @@ public class DichVuService {
         return dichVu;
     }
 
-    public List<DichVu> getListAllDichVu() {
+    public static void getListAllDichVu(DoublyLinkedListDichVu listDichVu) {
         String sql = "SELECT * FROM DichVu";
-        List<DichVu> listDichVu = new ArrayList<>();
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -60,29 +61,28 @@ public class DichVuService {
                 dichVu.setTenDichVu(rs.getString("TenDichVu"));
                 dichVu.setDonGia(rs.getFloat("DonGia"));
 
-                listDichVu.add(dichVu);
+                listDichVu.addLast(dichVu);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return listDichVu;
     }
 
-    public void updateDichVu(DichVu dichVu, int maDichVu) {
-        String sql = "UPDATE DichVu SET MaDichVu = ?, TenDichVu = ?, DonGia = ?  WHERE MaDichVu = ?";
+
+    public static void updateDichVu(DichVu dichVu, int maDichVu) {
+        String sql = "UPDATE DichVu SET TenDichVu = ?, DonGia = ?  WHERE MaDichVu = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, dichVu.getMaDichVu());
-            ps.setString(2, dichVu.getTenDichVu());
-            ps.setFloat(3, dichVu.getDonGia());
-            ps.setInt(4, maDichVu);
+            ps.setString(1, dichVu.getTenDichVu());
+            ps.setFloat(2, dichVu.getDonGia());
+            ps.setInt(3, maDichVu);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void deleteDichVu(int maDichVu) {
+    public static void deleteDichVu(int maDichVu) {
         String sql = "DELETE FROM DichVu WHERE MaDichVu = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -96,5 +96,24 @@ public class DichVuService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    public static DichVu getLastRow() {
+        String sql = "SELECT * FROM DichVu ORDER BY MaDichVu DESC LIMIT 1;";
+        DichVu dichVu = null;
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                dichVu = new DichVu();
+                dichVu.setMaDichVu(resultSet.getInt("MaDichVu"));
+                dichVu.setTenDichVu(resultSet.getString("TenDichVu"));
+                dichVu.setDonGia(resultSet.getFloat("DonGia"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dichVu;
     }
 }
