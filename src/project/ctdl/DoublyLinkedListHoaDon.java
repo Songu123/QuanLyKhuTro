@@ -125,7 +125,7 @@ public class DoublyLinkedListHoaDon {
         }
 
         size--;
-        System.out.println("Xóa phòng có mã " + maHoaDon + " thành công.");
+        System.out.println("Xóa hoá đơn có mã " + maHoaDon + " thành công.");
     }
 
     public void updateHoaDon(int maHoaDon, String trangThai) {

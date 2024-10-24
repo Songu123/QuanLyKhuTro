@@ -1,5 +1,6 @@
 package project.ctdl;
 
+import project.quanlykhutro.controller.ChiTietHoaDonController;
 import project.quanlykhutro.controller.DichVuController;
 import project.quanlykhutro.models.DichVu;
 import project.quanlykhutro.models.DichVu;
@@ -71,6 +72,13 @@ public class DoublyLinkedListDichVu {
         return current;
     }
 
+    public void duyetListDichVu() {
+        NodeDichVu current = first;
+        while (current != null) {
+            ChiTietHoaDonController.nhapSoLuongDichVu(current);
+            current = current.next;
+        }
+    }
 
     public void printListDichVu() {
         NodeDichVu current = first;
