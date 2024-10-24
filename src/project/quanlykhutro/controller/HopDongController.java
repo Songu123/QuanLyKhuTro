@@ -45,7 +45,7 @@ public class HopDongController {
                     deleteHopDong();
                     break;
                 case 7:
-                    updateHopDong();
+
                     break;
                 case 8:
                     xemChiTietHopDong();
