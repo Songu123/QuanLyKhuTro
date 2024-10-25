@@ -86,6 +86,18 @@ public class PhongService {
         }
     }
 
+    public static void updateTrangThai(int maPhong, String trangThai) {
+        String sql = "UPDATE Phong SET TrangThai = ? WHERE maPhong = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, trangThai);
+            ps.setInt(2, maPhong);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void updatePhong(Phong phong, int maPhong) {
         String sql = "UPDATE Phong SET DienTich = ?, GiaThue = ?, TrangThai = ?, MoTa = ?, MaQuanLy = ? WHERE maPhong = ?";
         try {
@@ -139,6 +151,8 @@ public class PhongService {
         }
         return phong;
     }
+
+
 
 
 

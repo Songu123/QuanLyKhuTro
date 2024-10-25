@@ -5,12 +5,10 @@ import project.quanlykhutro.dao.DAO;
 import project.quanlykhutro.models.HoaDon;
 import project.quanlykhutro.models.HopDong;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -58,6 +56,21 @@ public class HoaDonService {
         return hoaDon;
     }
 
+    public static int getIdLastRow() {
+        String sql = "SELECT * FROM HoaDon ORDER BY MaHoaDon DESC LIMIT 1;";
+        int idHoaDon = 0;
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                idHoaDon = resultSet.getInt("MaHoaDon");
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Xử lý ngoại lệ
+        }
+        return idHoaDon;
+    }
+
     public HoaDon getHoaDonById(int maHoaDon) {
         HoaDon hoaDon = null;
         String sql = "SELECT * FROM HoaDon WHERE MaHoaDon = ?";
@@ -85,20 +98,26 @@ public class HoaDonService {
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
+
             while (rs.next()) {
                 HoaDon hoaDon = new HoaDon();
                 hoaDon.setMaHoaDon(rs.getInt("MaHoaDon"));
                 hoaDon.setMaHopDong(rs.getInt("MaHopDong"));
                 hoaDon.setNgayPhatHanh(rs.getDate("NgayPhatHanh").toLocalDate());
-                hoaDon.setNgayDenHan(rs.getDate("NgayBatDau").toLocalDate());
+                hoaDon.setNgayDenHan(rs.getDate("NgayDenHan").toLocalDate());
                 hoaDon.setTongTien(rs.getFloat("TongTien"));
                 hoaDon.setTrangThai(rs.getString("TrangThai"));
+
                 listHoaDon.addHoaDon(hoaDon);
             }
+
+            rs.close();
+            ps.close();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Lỗi khi lấy danh sách hóa đơn: " + e.getMessage(), e);
         }
     }
+
 
     public static void updateHoaDon(HoaDon hoaDon, int maHoaDon) {
         String sql = "UPDATE HoaDon SET MaHoaDon = ?, MaPhong = ?, MaNguoiThue = ?, NgayBatDau = ?, NgayKetThuc = ?, GiaThueHoaDon = ?, TienCoc = ?  WHERE MaHoaDon = ?";
@@ -159,6 +178,20 @@ public class HoaDonService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static void capNhatThongTinHoaDon(int maHoaDon, LocalDate ngayDenHan, float tongTien, String trangThai){
+        String sql = "UPDATE HoaDon SET NgayDenHan = ?, TongTien = ?, TrangThai = ?  WHERE MaHoaDon = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setDate(1, Date.valueOf(ngayDenHan));
+            ps.setFloat(2, tongTien);
+            ps.setString(3, trangThai);
+            ps.setInt(4, maHoaDon);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

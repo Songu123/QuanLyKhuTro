@@ -52,13 +52,14 @@ public class DoublyLinkedListNguoiThue {
 
         while (current != null) {
             if (current.data.getMaNguoiThue() == maNguoiThue) {
-                System.out.printf("| %-10d | %-20s | %-10s | %-8s | %-35s | %-12s |\n",
+                System.out.printf("| %-10d | %-20s | %-10s | %-8s | %-35s | %-12s | %-12s |\n",
                         current.data.getMaNguoiThue(),
                         current.data.getTen(),
-                        current.data.getNgaySinh().toString(), // Chuyển đổi LocalDate thành chuỗi
+                        current.data.getNgaySinh().toString(),
                         current.data.getGioiTinh(),
                         current.data.getDiaChi(),
-                        current.data.getSoDienThoai());
+                        current.data.getSoDienThoai(),
+                        current.data.getTrangThai()); // Thêm trạng thái
                 found = true;
                 break;
             }
@@ -74,16 +75,18 @@ public class DoublyLinkedListNguoiThue {
     }
 
 
+
     public void printListNguoiThue() {
         NodeNguoiThue current = first;
         while (current != null) {
-            System.out.printf("| %-10d | %-20s | %-10s | %-8s | %-35s | %-12s |\n",
+            System.out.printf("| %-10d | %-20s | %-10s | %-8s | %-35s | %-12s | %-12s |\n",
                     current.data.getMaNguoiThue(),
                     current.data.getTen(),
-                    current.data.getNgaySinh().toString(), // Chuyển đổi LocalDate thành chuỗi
+                    current.data.getNgaySinh().toString(),
                     current.data.getGioiTinh(),
                     current.data.getDiaChi(),
-                    current.data.getSoDienThoai());
+                    current.data.getSoDienThoai(),
+                    current.data.getTrangThai()); // Thêm trạng thái
 
             current = current.next;
         }
@@ -140,6 +143,20 @@ public class DoublyLinkedListNguoiThue {
         current.data.setGioiTinh(nguoiThueMoi.getGioiTinh());
         current.data.setDiaChi(nguoiThueMoi.getDiaChi());
         current.data.setSoDienThoai(nguoiThueMoi.getSoDienThoai());
+        current.data.setTrangThai(nguoiThueMoi.getTrangThai());
+
+        System.out.println("Cập nhật phòng có mã " + maNguoiThue + " thành công.");
+    }
+
+    public void updateTrangThaiNguoiThue(int maNguoiThue, String trangThai) {
+        NodeNguoiThue current = searchNguoiThue(maNguoiThue);
+
+        if (current == null) {
+            System.out.println("Không tìm thấy phòng có mã: " + maNguoiThue);
+            return;
+        }
+
+        current.data.setTrangThai(trangThai);
 
         System.out.println("Cập nhật phòng có mã " + maNguoiThue + " thành công.");
     }

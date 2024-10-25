@@ -13,6 +13,8 @@ import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.util.Scanner;
 
+
+
 public class NguoiThueController {
     public static Scanner sc = new Scanner(System.in);
     public static DoublyLinkedListNguoiThue listNguoiThue = new DoublyLinkedListNguoiThue();
@@ -33,9 +35,12 @@ public class NguoiThueController {
                     deleteNguoiThue();
                     break;
                 case 4:
-                    searchNguoiThue();
+                    updateStatus();
                     break;
                 case 5:
+                    searchNguoiThue();
+                    break;
+                case 6:
                     printListNguoiThue();
                     break;
                 case 0:
@@ -45,6 +50,7 @@ public class NguoiThueController {
             }
         }
     }
+
     public static NguoiThue nhapThongTin() {
         NguoiThue nguoiThue;
         String ten;
@@ -143,8 +149,10 @@ public class NguoiThueController {
             }
         }
 
+        String trangThai = "Đang chờ";
+
         System.out.println("Đã nhập thành công thông tin người thuê!");
-        nguoiThue =  new NguoiThue(ten, ngaySinh, gioiTinh, diaChi, soDienThoai);
+        nguoiThue = new NguoiThue(ten, ngaySinh, gioiTinh, diaChi, soDienThoai, trangThai);
         System.out.println(nguoiThue);
         return nguoiThue;
     }
@@ -185,7 +193,7 @@ public class NguoiThueController {
 
     public static void deleteNguoiThue() {
         try {
-            System.out.println("Nhập ID Phòng muốn xoá: ");
+            System.out.println("Nhập ID Người thuê muốn xoá: ");
             int id = Integer.parseInt(sc.nextLine());
 
             listNguoiThue.deleteNguoiThue(id);
@@ -198,7 +206,7 @@ public class NguoiThueController {
 
     public static void updateNguoiThue() {
         try {
-            System.out.println("Nhập ID Phòng muốn cập nhật: ");
+            System.out.println("Nhập ID Người Thuê muốn cập nhật: ");
             int id = Integer.parseInt(sc.nextLine());
 
             NguoiThue nguoiThue = nhapThongTin();
@@ -208,6 +216,39 @@ public class NguoiThueController {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public static void updateStatus() {
+        int id = 0;
+        try {
+            System.out.println("Nhập ID Người Thuê muốn cập nhật: ");
+            id = Integer.parseInt(sc.nextLine());
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        String trangThai = "";
+        while (true) {
+            System.out.println("Nhập trạng thái: (1 - Đang Thuê, 2 - Đã Trả Phòng, 3 - Đang Chờ)");
+            int chon = sc.nextInt();
+            sc.nextLine();
+            switch (chon) {
+                case 1:
+                    trangThai = "Đang Thuê";
+                    break;
+                case 2:
+                    trangThai = "Đã Trả Phòng";
+                    break;
+                case 3:
+                    trangThai = "Đang Chờ";
+                    break;
+                default:
+                    System.out.println("Nhâp sai! Vui lòng nhập lại!");
+            }
+            listNguoiThue.updateTrangThaiNguoiThue(id, trangThai);
+            break;
+        }
     }
 
     public static void printListNguoiThue() {
@@ -222,7 +263,6 @@ public class NguoiThueController {
             System.out.println(e.getMessage());
         }
     }
-
 
 
 }

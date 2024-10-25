@@ -54,10 +54,10 @@ public class DoublyLinkedListDichVu {
 
         while (current != null) {
             if (current.data.getMaDichVu() == maDichVu) {
-                System.out.printf("| %-10d | %-20s | %-10.2f |\n",
-                        current.data.getMaDichVu(),
-                        current.data.getTenDichVu(),
-                        current.data.getDonGia());
+//                System.out.printf("| %-10d | %-20s | %-10.2f |\n",
+//                        current.data.getMaDichVu(),
+//                        current.data.getTenDichVu(),
+//                        current.data.getDonGia());
                 found = true;
                 break;
             }
@@ -72,10 +72,10 @@ public class DoublyLinkedListDichVu {
         return current;
     }
 
-    public void duyetListDichVu() {
+    public void duyetListDichVu(int maHoaDon) {
         NodeDichVu current = first;
         while (current != null) {
-            ChiTietHoaDonController.nhapSoLuongDichVu(current);
+            ChiTietHoaDonController.nhapSoLuongDichVu(current, maHoaDon);
             current = current.next;
         }
     }

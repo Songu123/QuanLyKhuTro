@@ -10,7 +10,8 @@ public class ChiTietHoaDon {
     public ChiTietHoaDon() {
     }
 
-    public ChiTietHoaDon(int maDichVu, float soLuong, float donGia, float thanhTien) {
+    public ChiTietHoaDon(int maHoaDon, int maDichVu, float soLuong, float donGia, float thanhTien) {
+        this.maHoaDon = maHoaDon;
         this.maDichVu = maDichVu;
         this.soLuong = soLuong;
         this.donGia = donGia;

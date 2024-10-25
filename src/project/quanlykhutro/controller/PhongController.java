@@ -27,19 +27,22 @@ public class PhongController {
                     updatePhong();
                     break;
                 case 3:
-                    deletePhong();
+                    updateStatus();
                     break;
                 case 4:
                     listPhong.thongKePhongTrong();
                     break;
                 case 5:
-                    searchPhong();
+                    printPhongWithStatus();
                     break;
                 case 6:
+                    searchPhong();
+                    break;
+                case 7:
                     printListPhong();
                     break;
                 case 0:
-                    break;
+                    return;
                 default:
                     System.out.println("Nhập sai! Vui lòng nhập lại (0-6)!");
             }
@@ -139,7 +142,7 @@ public class PhongController {
         }
 
         System.out.println("Đã nhập thành công thông tin phòng:");
-        phong =  new Phong(dienTich, giaThue, trangThai, moTa, maQuanLy);
+        phong = new Phong(dienTich, giaThue, trangThai, moTa, maQuanLy);
         System.out.println(phong);
         return phong;
     }
@@ -178,13 +181,12 @@ public class PhongController {
         }
     }
 
-    public static void deletePhong() {
+    public static void updateStatus() {
         try {
-            System.out.println("Nhập ID Phòng muốn xoá: ");
+            System.out.println("Nhập ID Phòng muốn cập nhật trạng thái: ");
             int id = Integer.parseInt(sc.nextLine());
 
-            listPhong.deletePhong(id);
-            PhongService.deletePhong(id);
+            listPhong.updateTrangThai(id);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -218,5 +220,29 @@ public class PhongController {
         }
     }
 
+    public static void printPhongWithStatus() {
+        String trangThai = "";
+        while (true) {
+            System.out.println("Nhập trạng thái: (1 - Phòng trống, 2 - Có người, 3 - Bị Hư)");
+            int chon = sc.nextInt();
+            sc.nextLine();
+            switch (chon) {
+                case 1:
+                    trangThai = "Trống";
+                    break;
+                case 2:
+                    trangThai = "Có Người";
+                    break;
+                case 3:
+                    trangThai = "Bị Hư";
+                    break;
+                default:
+                    System.out.println("Nhâp sai! Vui lòng nhập lại!");
+            }
+            listPhong.timKiemPhongTheoTrangThai(trangThai);
+            break;
+        }
 
+
+    }
 }

@@ -1,6 +1,8 @@
 package project.ctdl;
 
+import project.quanlykhutro.controller.DichVuController;
 import project.quanlykhutro.models.ChiTietHoaDon;
+import project.quanlykhutro.models.DichVu;
 import project.quanlykhutro.models.HoaDon;
 import project.quanlykhutro.services.ChiTietHoaDonService;
 
@@ -13,6 +15,11 @@ public class DoublyLinkedListChiTietHoaDon {
         this.first = null;
         this.last = null;
         this.size = 0;
+        loadData();
+    }
+
+    public void loadData() {
+        ChiTietHoaDonService.getListAllChiTietHoaDon(this);
     }
 
     // Lấy kích thước danh sách
@@ -32,7 +39,6 @@ public class DoublyLinkedListChiTietHoaDon {
             last = newNode;
         }
         size++;
-        ChiTietHoaDonService.addChiTietHoaDon(chiTietHoaDon);  // Thêm vào cơ sở dữ liệu
         System.out.println("Tạo hoá đơn thành công!");
     }
 
@@ -72,6 +78,27 @@ public class DoublyLinkedListChiTietHoaDon {
         System.out.println("+------------+------------+------------+------------+");
     }
 
+    public void printListChiTietHoaDonWithID(int maHoaDon) {
+        NodeChiTietHoaDon current = first;
+        System.out.println("+------------+------------+------------+------------+");
+        System.out.println("| MaHoaDon   | TenDichVu   | SoLuong    | ThanhTien  |");
+        System.out.println("+------------+------------+------------+------------+");
+        while (current != null) {
+            if (current.data.getMaHoaDon() == maHoaDon) {
+                String tenDichVu = DichVuController.getNameDichVu(current.data.getMaDichVu());
+                System.out.printf("| %-10d | %-10s | %-10.2f | %-10.2f |\n",
+                        current.data.getMaHoaDon(),
+                        tenDichVu,
+//                        current.data.getMaDichVu(),
+                        current.data.getSoLuong(),
+                        current.data.getThanhTien());
+            }
+            current = current.next;
+        }
+        System.out.println("+------------+------------+------------+------------+");
+
+    }
+
     // Cập nhật chi tiết hóa đơn
     public void updateChiTietHoaDon(int maHoaDon, ChiTietHoaDon updatedChiTiet) {
         NodeChiTietHoaDon current = searchChiTietHoaDon(maHoaDon);
@@ -87,6 +114,32 @@ public class DoublyLinkedListChiTietHoaDon {
 
         ChiTietHoaDonService.updateChiTietHoaDon(current.data, maHoaDon, current.data.getMaDichVu());  // Cập nhật trong cơ sở dữ liệu
         System.out.println("Cập nhật hóa đơn có mã " + maHoaDon + " thành công.");
+    }
+
+    public float tinhTongTien(int maHoaDon) {
+        float tongTien = 0;
+        NodeChiTietHoaDon current = first;
+        while (current != null) {
+            if (current.data.getMaHoaDon() == maHoaDon) {
+                tongTien += current.data.getThanhTien();
+            }
+            current = current.next;
+        }
+
+        System.out.println("Không tìm thấy hoá đơn có mã: " + maHoaDon);
+        return tongTien;
+    }
+
+    public boolean checkHoaDon(int maHoaDon) {
+        NodeChiTietHoaDon current = first;
+        while (current != null) {
+            if (current.data.getMaHoaDon() == maHoaDon) {
+
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
     }
 }
 

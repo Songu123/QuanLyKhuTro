@@ -117,12 +117,15 @@ public class HopDongController {
                 System.out.println("Nhập ngày kết thúc (định dạng: yyyy-MM-dd): ");
                 ngayKetThuc = LocalDate.parse(sc.nextLine(), formatter);
 
+                // Kiểm tra ngày bắt đầu
                 if (ngayBatDau.isBefore(LocalDate.now())) {
-                    System.out.println("Lỗi: Ngày bắt đầu không được trong quá khứ!");
-                } else if (ngayKetThuc.isBefore(ngayBatDau)) {
-                    System.out.println("Lỗi: Ngày kết thúc phải sau ngày bắt đầu!");
+                    System.out.println("Lỗi: Ngày bắt đầu không được trong quá khứ! Vui lòng nhập lại sau hoặc trong" + (LocalDate.now()) + "!");
+                }
+                // Kiểm tra ngày kết thúc
+                else if (ngayKetThuc.isBefore(ngayBatDau) || ngayKetThuc.isEqual(ngayBatDau)) {
+                    System.out.println("Lỗi: Ngày kết thúc phải sau ngày bắt đầu! Vui lòng nhập lại sau hoặc trong" + (ngayBatDau) + "!");
                 } else {
-                    break;
+                    break; // Thoát khỏi vòng lặp khi ngày hợp lệ
                 }
             } catch (DateTimeParseException e) {
                 System.out.println("Lỗi: Vui lòng nhập ngày theo định dạng yyyy-MM-dd!");

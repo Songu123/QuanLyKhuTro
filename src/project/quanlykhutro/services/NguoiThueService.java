@@ -19,41 +19,41 @@ import java.util.Locale;
 public class NguoiThueService {
     public static DAO dao = new DAO();
     public static Connection conn = dao.connectionDB();
-    public DateFormat format  = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+    public DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
-    public static void addNguoiThue(NguoiThue nguoiThue){
-            // Nếu bảng có cột tự động tăng, bạn cần chỉ định cụ thể các cột trong câu lệnh SQL
-            String sql = "INSERT INTO NguoiThue (Ten, NgaySinh, GioiTinh, DiaChi, SoDienThoai) VALUES (?, ?, ?, ?, ?)";
+    public static void addNguoiThue(NguoiThue nguoiThue) {
+        // Nếu bảng có cột tự động tăng, bạn cần chỉ định cụ thể các cột trong câu lệnh SQL
+        String sql = "INSERT INTO NguoiThue (Ten, NgaySinh, GioiTinh, DiaChi, SoDienThoai) VALUES (?, ?, ?, ?, ?)";
 
-            try {
-                PreparedStatement ps = conn.prepareStatement(sql);
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
 
-                // Thiết lập các giá trị cho các cột
-                ps.setString(1, nguoiThue.getTen());
+            // Thiết lập các giá trị cho các cột
+            ps.setString(1, nguoiThue.getTen());
 
-                // Chuyển đổi LocalDate thành java.sql.Date
-                ps.setDate(2, java.sql.Date.valueOf(nguoiThue.getNgaySinh()));
+            // Chuyển đổi LocalDate thành java.sql.Date
+            ps.setDate(2, java.sql.Date.valueOf(nguoiThue.getNgaySinh()));
 
-                ps.setString(3, nguoiThue.getGioiTinh());
-                ps.setString(4, nguoiThue.getDiaChi());
-                ps.setString(5, nguoiThue.getSoDienThoai());
+            ps.setString(3, nguoiThue.getGioiTinh());
+            ps.setString(4, nguoiThue.getDiaChi());
+            ps.setString(5, nguoiThue.getSoDienThoai());
 
-                // Thực thi lệnh SQL
-                ps.executeUpdate();
+            // Thực thi lệnh SQL
+            ps.executeUpdate();
 
-            } catch (SQLException e) {
-                // Xử lý lỗi SQL
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
+        } catch (SQLException e) {
+            // Xử lý lỗi SQL
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     public static NguoiThue getNguoiThueById(int maNguoiThue) {
         NguoiThue nguoiThue = null;
         String sql = "SELECT * FROM NguoiThue WHERE MaNguoiThue = ?";
-        try(PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, maNguoiThue);
-            ps.executeUpdate();
+            ps.executeQuery();
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 nguoiThue = new NguoiThue();
@@ -93,15 +93,28 @@ public class NguoiThueService {
     }
 
     public static void updateNguoiThue(NguoiThue nguoiThue, int maNguoiThue) {
-        String sql = "UPDATE NguoiThue SET Ten = ?, NgaySinh = ?, GioiTinh = ?, DiaChi = ?, SoDienThoai = ?  WHERE MaNguoiThue = ?";
+        String sql = "UPDATE NguoiThue SET Ten = ?, NgaySinh = ?, GioiTinh = ?, DiaChi = ?, SoDienThoai = ?,TrangThai = ?  WHERE MaNguoiThue = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, nguoiThue.getTen());
-            ps.setDate(2,  java.sql.Date.valueOf(nguoiThue.getNgaySinh()));
+            ps.setDate(2, java.sql.Date.valueOf(nguoiThue.getNgaySinh()));
             ps.setString(3, nguoiThue.getGioiTinh());
             ps.setString(4, nguoiThue.getDiaChi());
             ps.setString(5, nguoiThue.getSoDienThoai());
-            ps.setInt(6, maNguoiThue);
+            ps.setString(6, nguoiThue.getTrangThai());
+            ps.setInt(7, maNguoiThue);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateStatusNguoiThue(int maNguoiThue, String trangThai) {
+        String sql = "UPDATE NguoiThue SET TrangThai = ?  WHERE MaNguoiThue = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, trangThai);
+            ps.setInt(2, maNguoiThue);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -116,7 +129,7 @@ public class NguoiThueService {
 
             if (ps.executeUpdate() > 0) {
                 System.out.println("Xoá người thuê thành công!");
-            }else  {
+            } else {
                 System.out.println("Xoá người thuê không thành công!");
             }
         } catch (SQLException e) {

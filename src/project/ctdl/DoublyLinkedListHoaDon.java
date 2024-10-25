@@ -41,7 +41,6 @@ public class DoublyLinkedListHoaDon {
         }
 
         size++;
-        hoaDonService.addHoaDon(hoaDon);
     }
 
     public int getSize() {
@@ -53,9 +52,15 @@ public class DoublyLinkedListHoaDon {
         NodeHoaDon current = first;
         boolean found = false;
 
+        // Hiển thị tiêu đề bảng
+        System.out.println("+------------+----------------------+------------+------------+------------+---------------+");
+        System.out.printf("| %-10s | %-20s | %-10s | %-10s | %-10s | %-15s |\n",
+                "MaHoaDon", "MaHopDong", "NgayPhatHanh", "NgayDenHan", "TongTien", "TrangThai");
+        System.out.println("+------------+----------------------+------------+------------+------------+---------------+");
+
         while (current != null) {
             if (current.data.getMaHoaDon() == maHoaDon) {
-                System.out.printf("| %-10d | %-20s | %-10.2f |\n",
+                System.out.printf("| %-10d | %-20d | %-10s | %-10s | %-10.2f | %-15s |\n",
                         current.data.getMaHoaDon(),
                         current.data.getMaHopDong(),
                         current.data.getNgayPhatHanh(),
@@ -70,17 +75,24 @@ public class DoublyLinkedListHoaDon {
 
         if (!found) {
             System.out.println("Không tìm thấy hoá đơn có mã: " + maHoaDon);
-            return null;
         }
 
+        System.out.println("+------------+----------------------+------------+------------+------------+---------------+");
         return current;
     }
 
 
     public void printListHoaDon() {
         NodeHoaDon current = first;
+
+        // Hiển thị tiêu đề bảng
+        System.out.println("+------------+----------------------+------------+------------+------------+---------------+");
+        System.out.printf("| %-10s | %-20s | %-10s | %-10s | %-10s | %-15s |\n",
+                "MaHoaDon", "MaHopDong", "NgayPhatHanh", "NgayDenHan", "TongTien", "TrangThai");
+        System.out.println("+------------+----------------------+------------+------------+------------+---------------+");
+
         while (current != null) {
-            System.out.printf("| %-10d | %-20s | %-10.2f |\n",
+            System.out.printf("| %-10d | %-20d | %-10s | %-10s | %-10.2f | %-15s |\n",
                     current.data.getMaHoaDon(),
                     current.data.getMaHopDong(),
                     current.data.getNgayPhatHanh(),
@@ -90,8 +102,10 @@ public class DoublyLinkedListHoaDon {
 
             current = current.next;
         }
-        System.out.println("+------------+----------------------+------------+");
+
+        System.out.println("+------------+----------------------+------------+------------+------------+---------------+");
     }
+
 
     public void deleteHoaDon(int maHoaDon) {
         NodeHoaDon current = searchHoaDon(maHoaDon);
@@ -141,6 +155,29 @@ public class DoublyLinkedListHoaDon {
 
         System.out.println("Cập nhật hoá đơn có mã " + maHoaDon + " thành công.");
     }
+
+//    Hàm lấy danh sách nợ
+public void printHoaDonNo() {
+    NodeHoaDon current = first;
+    System.out.println("+------------+----------------------+------------+");
+    while (current != null) {
+        String trangThai = current.data.getTrangThai();
+
+        // Kiểm tra nếu trạng thái là "Quá Hạn" hoặc "Chưa Thanh Toán"
+        if (trangThai.equalsIgnoreCase("Quá Hạn") || trangThai.equalsIgnoreCase("Chưa Thanh Toán")) {
+            System.out.printf("| %-10d | %-20d | %-10s | %-10s | %-10.2f | %-15s |\n",
+                    current.data.getMaHoaDon(),
+                    current.data.getMaHopDong(),
+                    current.data.getNgayPhatHanh(),
+                    current.data.getNgayDenHan(),
+                    current.data.getTongTien(),
+                    current.data.getTrangThai());
+        }
+
+        current = current.next;
+    }
+    System.out.println("+------------+----------------------+------------+");
+}
 
 
 }
