@@ -5,6 +5,7 @@ import project.quanlykhutro.models.Phong;
 import project.quanlykhutro.services.PhongService;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class DoublyLinkedListPhong {
     private NodePhong first, last;
@@ -58,6 +59,8 @@ public class DoublyLinkedListPhong {
             }
             current = current.next;
         }
+        System.out.println("+----------+----------------------+----------+----------+------------------------------------+----------+");
+
 
         if (!found) {
             System.out.println("Không tìm thấy phòng có mã: " + maPhong);
@@ -76,42 +79,85 @@ public class DoublyLinkedListPhong {
 
             current = current.next;
         }
+        System.out.println("+----------+----------------------+----------+----------+------------------------------------+----------+");
+
     }
 
-    public void deletePhong(int maPhong) {
+    //    public void deletePhong(int maPhong) {
+//        NodePhong current = searchPhong(maPhong);
+//
+//        // Nếu không tìm thấy phòng với mã tương ứng
+//        if (current == null) {
+//            System.out.println("Không tìm thấy phòng có mã: " + maPhong);
+//            return;
+//        }
+//
+//        // Trường hợp xóa phần tử đầu tiên
+//        if (current == first) {
+//            // Nếu chỉ có một phần tử trong danh sách
+//            if (first == last) {
+//                first = null;
+//                last = null;
+//            } else {
+//                first = first.next;
+//                first.prev = null;
+//            }
+//        }
+//        // Trường hợp xóa phần tử cuối cùng
+//        else if (current == last) {
+//            last = last.prev;
+//            last.next = null;
+//        }
+//        // Trường hợp xóa phần tử ở giữa
+//        else {
+//            current.prev.next = current.next;
+//            current.next.prev = current.prev;
+//        }
+//
+//        size--;
+//        System.out.println("Xóa phòng có mã " + maPhong + " thành công.");
+//    }
+//
+    public void updateTrangThai(int maPhong) {
+        Scanner sc = new Scanner(System.in);
         NodePhong current = searchPhong(maPhong);
-
-        // Nếu không tìm thấy phòng với mã tương ứng
         if (current == null) {
             System.out.println("Không tìm thấy phòng có mã: " + maPhong);
             return;
         }
 
-        // Trường hợp xóa phần tử đầu tiên
-        if (current == first) {
-            // Nếu chỉ có một phần tử trong danh sách
-            if (first == last) {
-                first = null;
-                last = null;
-            } else {
-                first = first.next;
-                first.prev = null;
+        String trangThai = "";
+        boolean validChoice = false; // Biến để kiểm tra lựa chọn hợp lệ
+
+        while (!validChoice) {
+            System.out.println("Nhập trạng thái: (1 - Phòng trống, 2 - Có người, 3 - Bị Hư)");
+            int chon = sc.nextInt();
+            sc.nextLine();
+
+            switch (chon) {
+                case 1:
+                    trangThai = "Trống";
+                    validChoice = true;
+                    break;
+                case 2:
+                    trangThai = "Có Người";
+                    validChoice = true;
+                    break;
+                case 3:
+                    trangThai = "Bị Hư";
+                    validChoice = true;
+                    break;
+                default:
+                    System.out.println("Nhập sai! Vui lòng nhập lại!");
             }
         }
-        // Trường hợp xóa phần tử cuối cùng
-        else if (current == last) {
-            last = last.prev;
-            last.next = null;
-        }
-        // Trường hợp xóa phần tử ở giữa
-        else {
-            current.prev.next = current.next;
-            current.next.prev = current.prev;
-        }
 
-        size--;
-        System.out.println("Xóa phòng có mã " + maPhong + " thành công.");
+        // Cập nhật trạng thái phòng
+        current.data.setTrangThai(trangThai);
+        PhongService.updateTrangThai(maPhong, trangThai);
+        System.out.println("Cập nhật phòng có mã " + maPhong + " thành công.");
     }
+
 
     public void updatePhong(int maPhong, Phong phongMoi) {
         NodePhong current = searchPhong(maPhong);
@@ -149,10 +195,31 @@ public class DoublyLinkedListPhong {
             current = current.next;
         }
 
-        System.out.println("+----------+----------------------+----------+----------+----------+");
+        System.out.println("+----------+----------------------+----------+----------+------------------------------------+----------+");
         System.out.println("Tổng số phòng trống: " + count);
     }
 
+    public void timKiemPhongTheoTrangThai(String trangThai) {
+        NodePhong current = first;
+        int count = 0;  // Biến đếm số lượng phòng trống
+
+        PhongController.hienThiTieuDePhong();
+
+        // Duyệt qua danh sách liên kết đôi
+        while (current != null) {
+            // Kiểm tra nếu phòng đang trống
+            if (current.data.getTrangThai().equalsIgnoreCase(trangThai)) {
+                System.out.printf("| %-8d | %-20.2f | %-8.2f | %-8s | %-35s | %-8d |\n", current.data.getMaPhong(),
+                        current.data.getDienTich(), current.data.getGiaThue(), current.data.getTrangThai(),
+                        current.data.getMoTa(), current.data.getMaQuanLy());
+                count++;
+            }
+            current = current.next;
+        }
+
+        System.out.println("+----------+----------------------+----------+----------+------------------------------------+----------+");
+        System.out.println("Tổng số phòng " + trangThai + ": " + count);
+    }
 
 
 }

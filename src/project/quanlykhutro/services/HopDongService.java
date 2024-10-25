@@ -42,17 +42,17 @@ public class HopDongService {
         String sql = "SELECT * FROM HopDong WHERE MaHopDong = ?";
         try(PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, maHopDong);
-            ps.executeUpdate();
+            ps.executeQuery();
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 hopDong = new HopDong();
                 hopDong.setMaHopDong(rs.getInt("MaHopDong"));
-                hopDong.setMaHopDong(rs.getInt("MaHopDong"));
+                hopDong.setMaPhong(rs.getInt("MaPhong"));
                 hopDong.setMaNguoiThue(rs.getInt("MaNguoiThue"));
                 hopDong.setNgayBatDau(rs.getDate("NgayBatDau").toLocalDate());
                 hopDong.setNgayKetThuc(rs.getDate("NgayKetThuc").toLocalDate());
-                hopDong.setGiaThueHopDong(rs.getFloat("SoDienThoai"));
-                hopDong.setTienCoc(rs.getFloat("SoDienThoai"));
+                hopDong.setGiaThueHopDong(rs.getFloat("GiaThueHopDong"));
+                hopDong.setTienCoc(rs.getFloat("TienCoc"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -68,11 +68,12 @@ public class HopDongService {
             while (rs.next()) {
                 HopDong hopDong = new HopDong();
                 hopDong.setMaHopDong(rs.getInt("MaHopDong"));
+                hopDong.setMaPhong(rs.getInt("MaPhong"));
                 hopDong.setMaNguoiThue(rs.getInt("MaNguoiThue"));
                 hopDong.setNgayBatDau(rs.getDate("NgayBatDau").toLocalDate());
                 hopDong.setNgayKetThuc(rs.getDate("NgayKetThuc").toLocalDate());
-                hopDong.setGiaThueHopDong(rs.getFloat("SoDienThoai"));
-                hopDong.setTienCoc(rs.getFloat("SoDienThoai"));
+                hopDong.setGiaThueHopDong(rs.getFloat("GiaThueHopDong"));
+                hopDong.setTienCoc(rs.getFloat("TienCoc"));
                 listHopDong.addLast(hopDong);
             }
         } catch (SQLException e) {

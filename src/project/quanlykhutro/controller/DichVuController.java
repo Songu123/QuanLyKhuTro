@@ -2,6 +2,7 @@ package project.quanlykhutro.controller;
 
 import project.ctdl.DoublyLinkedListDichVu;
 import project.ctdl.DoublyLinkedListDichVu;
+import project.ctdl.NodeDichVu;
 import project.quanlykhutro.models.DichVu;
 import project.quanlykhutro.services.DichVuService;
 
@@ -159,6 +160,11 @@ public class DichVuController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static String getNameDichVu(int maDichVu) {
+        NodeDichVu current =  listDichVu.searchDichVu(maDichVu);
+        return current.data.getTenDichVu();
     }
 
 }

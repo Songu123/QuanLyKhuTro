@@ -10,25 +10,37 @@ public class NguoiThue {
     private String gioiTinh;
     private String diaChi;
     private String soDienThoai;
+    private String trangThai;
+
 
     public NguoiThue() {
     }
 
-    public NguoiThue(int maNguoiThue, String ten, LocalDate ngaySinh, String gioiTinh, String diaChi, String soDienThoai) {
+    public NguoiThue(int maNguoiThue, String ten, LocalDate ngaySinh, String gioiTinh, String diaChi, String soDienThoai, String trangThai) {
         this.maNguoiThue = maNguoiThue;
         this.ten = ten;
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
+        this.trangThai = trangThai;
     }
 
-    public NguoiThue(String ten, LocalDate ngaySinh, String gioiTinh, String diaChi, String soDienThoai) {
+
+    public NguoiThue(String ten, LocalDate ngaySinh, String gioiTinh, String diaChi, String soDienThoai, String trangThai) {
         this.ten = ten;
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
     }
 
     public String getGioiTinh() {
