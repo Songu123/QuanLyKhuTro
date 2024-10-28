@@ -3,7 +3,7 @@ package project.ctdl;
 import project.quanlykhutro.models.Phong;
 
 public class NodePhong {
-    Phong data;
+    public Phong data;
     NodePhong prev;
     NodePhong next;
 

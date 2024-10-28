@@ -3,7 +3,7 @@ package project.ctdl;
 import project.quanlykhutro.models.HopDong;
 
 public class NodeHopDong {
-    HopDong data;
+    public HopDong data;
     NodeHopDong prev;
     NodeHopDong next;
 

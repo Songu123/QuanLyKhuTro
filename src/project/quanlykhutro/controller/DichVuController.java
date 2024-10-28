@@ -19,7 +19,8 @@ public class DichVuController {
         while (true) {
             Menu.menuQuanLyDichVu();
             System.out.println("Vui lòng chọn chức năng (0-6): ");
-            int chon = Integer.parseInt(sc.nextLine());
+            int chon = sc.nextInt();
+            sc.nextLine();
             switch (chon) {
                 case 1:
                     addDichVu();
@@ -28,13 +29,16 @@ public class DichVuController {
                     updateDichVu();
                     break;
                 case 3:
-                    deleteDichVu();
+                    updateStatus();
                     break;
                 case 4:
                     searchDichVu();
                     break;
                 case 5:
                     printListDichVu();
+                    break;
+                case 6:
+                    sortWithPrice();
                     break;
                 case 0:
                     break;
@@ -81,8 +85,10 @@ public class DichVuController {
             }
         }
 
+        String trangThai = "Hoạt Động";
+
         System.out.println("Đã nhập thành công thông tin người thuê!");
-        dichVu = new DichVu(ten, donGia);
+        dichVu = new DichVu(ten, donGia, trangThai);
         System.out.println(dichVu);
         return dichVu;
     }
@@ -104,10 +110,10 @@ public class DichVuController {
 
     // Hàm hiển thị tiêu đề dịch vụ
     public static void hienThiTieuDeDichVu() {
-        System.out.println("+------------+----------------------+------------+");
-        System.out.printf("| %-10s | %-20s | %-10s |\n",
-                "MaDichVu", "TenDichVu", "DonGia");
-        System.out.println("+------------+----------------------+------------+");
+        System.out.println("+------------+----------------------+------------+------------+");
+        System.out.printf("| %-10s | %-20s | %-10s | %-10s |\n",
+                "MaDichVu", "TenDichVu", "DonGia", "TrangThai"); // Thêm trường trạng thái
+        System.out.println("+------------+----------------------+------------+------------+");
     }
 
     public static void searchDichVu() {
@@ -116,38 +122,80 @@ public class DichVuController {
             System.out.println("Nhập ID phòng tìm kiếm: ");
             id = Integer.parseInt(sc.nextLine());
             hienThiTieuDeDichVu();
-            listDichVu.searchDichVu(id);
+//            listDichVu.searchDichVu(id);
+            listDichVu.hienThiDichVu(listDichVu.searchDichVuDeQuy(id));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public static void deleteDichVu() {
+    public static void updateStatus() {
         try {
-            System.out.println("Nhập ID Phòng muốn xoá: ");
-            int id = Integer.parseInt(sc.nextLine());
+            System.out.print("Nhập ID Phòng muốn cập nhật trạng thái: ");
+            int id = Integer.parseInt(sc.nextLine().trim()); // Loại bỏ khoảng trắng thừa
 
-            listDichVu.deleteDichVu(id);
-            DichVuService.deleteDichVu(id);
+            if (listDichVu.searchDichVuDeQuy(id) != null) { // Giả sử bạn có một phương thức để kiểm tra ID
+                System.out.println("ID phòng không tồn tại. Vui lòng kiểm tra lại.");
+                return;
+            }
+
+            System.out.print("Nhập trạng thái (1 - Hoạt Động, 2 - Không Hoạt Động): ");
+            int chon = Integer.parseInt(sc.nextLine().trim()); // Loại bỏ khoảng trắng thừa
+            String trangThai;
+
+            switch (chon) {
+                case 1:
+                    trangThai = "Hoạt Động";
+                    break;
+                case 2:
+                    trangThai = "Không Hoạt Động";
+                    break;
+                default:
+                    System.out.println("Nhập sai! Nhập (1, 2)!");
+                    return;
+            }
+
+            // Cập nhật trạng thái trong danh sách dịch vụ
+            listDichVu.updateStatus(id, trangThai);
+            // Cập nhật trạng thái dịch vụ
+            DichVuService.updateStatus(id, trangThai);
+            System.out.println("Cập nhật trạng thái thành công cho ID: " + id);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Lỗi: Vui lòng nhập một số hợp lệ cho ID và trạng thái.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Đã xảy ra lỗi: " + e.getMessage());
         }
-
     }
 
     public static void updateDichVu() {
         try {
-            System.out.println("Nhập ID Phòng muốn cập nhật: ");
-            int id = Integer.parseInt(sc.nextLine());
+            System.out.print("Nhập ID Dịch Vụ muốn cập nhật: ");
+            int id = Integer.parseInt(sc.nextLine().trim()); // Loại bỏ khoảng trắng thừa
 
+            // Kiểm tra xem ID có tồn tại hay không
+            if (listDichVu.searchDichVuDeQuy(id) == null) { // Kiểm tra nếu ID không tồn tại
+                System.out.println("ID dịch vụ không tồn tại. Vui lòng kiểm tra lại.");
+                return;
+            }
+
+            // Nhập thông tin dịch vụ mới
             DichVu dichVu = nhapThongTin();
-            listDichVu.updateDichVu(id, dichVu);
-            DichVuService.updateDichVu(dichVu, id);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
 
+            // Cập nhật dịch vụ trong danh sách
+            listDichVu.updateDichVu(id, dichVu);
+            // Cập nhật dịch vụ trong dịch vụ
+            DichVuService.updateDichVu(dichVu, id);
+
+            System.out.println("Cập nhật dịch vụ thành công cho ID: " + id);
+
+        } catch (NumberFormatException e) {
+            System.out.println("Lỗi: Vui lòng nhập một số hợp lệ cho ID.");
+        } catch (Exception e) {
+            System.out.println("Đã xảy ra lỗi: " + e.getMessage());
+        }
     }
+
 
     public static void printListDichVu() {
         try {
@@ -163,8 +211,13 @@ public class DichVuController {
     }
 
     public static String getNameDichVu(int maDichVu) {
-        NodeDichVu current =  listDichVu.searchDichVu(maDichVu);
+        NodeDichVu current =  listDichVu.searchDichVuDeQuy(maDichVu);
         return current.data.getTenDichVu();
+    }
+
+//    Sử dụng thuật toán sắp xếp nổi bọt để sắp xếp
+    public static void sortWithPrice() {
+        listDichVu.bubbleSort();
     }
 
 }

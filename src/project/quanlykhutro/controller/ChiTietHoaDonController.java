@@ -1,10 +1,9 @@
 package project.quanlykhutro.controller;
 
-import project.ctdl.DoublyLinkedListChiTietHoaDon;
-import project.ctdl.DoublyLinkedListDichVu;
-import project.ctdl.DoublyLinkedListHoaDon;
-import project.ctdl.NodeDichVu;
+import project.ctdl.*;
 import project.quanlykhutro.models.ChiTietHoaDon;
+import project.quanlykhutro.services.ChiTietHoaDonService;
+import project.quanlykhutro.services.HoaDonService;
 
 import java.util.Scanner;
 
@@ -31,12 +30,22 @@ public class ChiTietHoaDonController {
         float donGia = dichVu.data.getDonGia();
         float thanhTien = soLuong * donGia;
         chiTietHoaDon = new ChiTietHoaDon(maHoaDon, maDichVu, soLuong, donGia, thanhTien);
+//        Thêm nó vào cơ sở dữ liệu
+        ChiTietHoaDonService.addChiTietHoaDon(chiTietHoaDon);
+//        Lấy dữ liệu đưa vào danh sách
+        listChiTietHoaDon.addChiTietHoaDon(chiTietHoaDon);
         return chiTietHoaDon;
     }
 
     public static void nhapChiTietHoaDon(int maHoaDon) {
         listDichVu.duyetListDichVu(maHoaDon);
+        listChiTietHoaDon.printListChiTietHoaDon();
     }
+
+    public void hienThiDanhSachChiTietHoaDon() {
+        listChiTietHoaDon.printListChiTietHoaDon();
+    }
+
 
     public static void hienThiChiTietHoaDon() {
         int maHoaDon = 0;
@@ -59,6 +68,10 @@ public class ChiTietHoaDonController {
 
     public static boolean checkHoaDon(int maHoaDon) {
         return listChiTietHoaDon.checkHoaDon(maHoaDon) ;
+    }
+
+    public static float tinhTongThanhToan(int maHoaDon) {
+        return listChiTietHoaDon.tinhTongTien(maHoaDon);
     }
 
 }

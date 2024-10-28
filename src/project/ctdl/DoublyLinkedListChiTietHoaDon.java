@@ -64,14 +64,16 @@ public class DoublyLinkedListChiTietHoaDon {
     // In danh sách các chi tiết hóa đơn
     public void printListChiTietHoaDon() {
         NodeChiTietHoaDon current = first;
-        System.out.println("+------------+------------+------------+------------+");
-        System.out.println("| MaHoaDon   | MaDichVu   | SoLuong    | ThanhTien  |");
-        System.out.println("+------------+------------+------------+------------+");
+        System.out.println("+------------+------------+------------+------------+------------+");
+        System.out.println("| MaHoaDon   | TenDichVu   | SoLuong    | DonGia     | ThanhTien  |");
+        System.out.println("+------------+------------+------------+------------+------------+");
         while (current != null) {
-            System.out.printf("| %-10d | %-10d | %-10.2f | %-10.2f |\n",
+            String tenDichVu = DichVuController.getNameDichVu(current.data.getMaDichVu());
+            System.out.printf("| %-10d | %-10s | %-10.2f | %-10.2f | %-10.2f |\n",
                     current.data.getMaHoaDon(),
-                    current.data.getMaDichVu(),
+                    tenDichVu,
                     current.data.getSoLuong(),
+                    current.data.getDonGia(),
                     current.data.getThanhTien());
             current = current.next;
         }
@@ -80,24 +82,27 @@ public class DoublyLinkedListChiTietHoaDon {
 
     public void printListChiTietHoaDonWithID(int maHoaDon) {
         NodeChiTietHoaDon current = first;
-        System.out.println("+------------+------------+------------+------------+");
-        System.out.println("| MaHoaDon   | TenDichVu   | SoLuong    | ThanhTien  |");
-        System.out.println("+------------+------------+------------+------------+");
+        System.out.println("+------------+------------+------------+------------+------------+");
+        System.out.println("| MaHoaDon   | TenDichVu   | SoLuong    | DonGia     | ThanhTien  |");
+        System.out.println("+------------+------------+------------+------------+------------+");
+
         while (current != null) {
             if (current.data.getMaHoaDon() == maHoaDon) {
                 String tenDichVu = DichVuController.getNameDichVu(current.data.getMaDichVu());
-                System.out.printf("| %-10d | %-10s | %-10.2f | %-10.2f |\n",
+                System.out.printf("| %-10d | %-10s | %-10.2f | %-10.2f | %-10.2f |\n",
                         current.data.getMaHoaDon(),
                         tenDichVu,
-//                        current.data.getMaDichVu(),
                         current.data.getSoLuong(),
+                        current.data.getDonGia(),
                         current.data.getThanhTien());
             }
             current = current.next;
         }
-        System.out.println("+------------+------------+------------+------------+");
 
+        System.out.println("+------------+------------+------------+------------+------------+");
     }
+
+
 
     // Cập nhật chi tiết hóa đơn
     public void updateChiTietHoaDon(int maHoaDon, ChiTietHoaDon updatedChiTiet) {
@@ -116,19 +121,6 @@ public class DoublyLinkedListChiTietHoaDon {
         System.out.println("Cập nhật hóa đơn có mã " + maHoaDon + " thành công.");
     }
 
-    public float tinhTongTien(int maHoaDon) {
-        float tongTien = 0;
-        NodeChiTietHoaDon current = first;
-        while (current != null) {
-            if (current.data.getMaHoaDon() == maHoaDon) {
-                tongTien += current.data.getThanhTien();
-            }
-            current = current.next;
-        }
-
-        System.out.println("Không tìm thấy hoá đơn có mã: " + maHoaDon);
-        return tongTien;
-    }
 
     public boolean checkHoaDon(int maHoaDon) {
         NodeChiTietHoaDon current = first;
@@ -141,5 +133,18 @@ public class DoublyLinkedListChiTietHoaDon {
         }
         return false;
     }
+
+    public float tinhTongTien(int maHoaDon) {
+        float tongTien = 0;
+        NodeChiTietHoaDon current = first;
+        while (current != null) {
+            if (current.data.getMaHoaDon() == maHoaDon) {
+                tongTien += current.data.getThanhTien();
+            }
+            current = current.next;
+        }
+        return tongTien;
+    }
+
 }
 

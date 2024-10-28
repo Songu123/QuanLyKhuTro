@@ -144,5 +144,24 @@ public class DoublyLinkedListHopDong {
         System.out.println("Cập nhật phòng có mã " + maHopDong + " thành công.");
     }
 
+    public NodeHopDong getHopDong(int maHopDong) {
+        NodeHopDong current = first;
+        boolean found = false;
+
+        while (current != null) {
+            if (current.data.getMaHopDong() == maHopDong) {
+                found = true;
+                break;
+            }
+            current = current.next;
+        }
+
+        if (!found) {
+            System.out.println("Không tìm thấy phòng có mã: " + maHopDong);
+            return null;
+        }
+
+        return current;
+    }
 
 }
