@@ -48,7 +48,7 @@ public class DoublyLinkedListPhong {
     public NodePhong searchPhong(int maPhong) {
         NodePhong current = first;
         boolean found = false;
-
+        PhongController.hienThiTieuDePhong();
         while (current != null) {
             if (current.data.getMaPhong() == maPhong) {
                 System.out.printf("| %-8d | %-20.2f | %-8.2f | %-8s | %-35s | %-8d |\n", current.data.getMaPhong(),
@@ -118,21 +118,58 @@ public class DoublyLinkedListPhong {
 //        System.out.println("Xóa phòng có mã " + maPhong + " thành công.");
 //    }
 //
+    public boolean checkPhongCoNguoi(int maPhong) {
+        NodePhong current = first;
+
+        while (current != null) {
+            // Kiểm tra nếu phòng có mã khớp và trạng thái là "Có Người"
+            if (current.data.getMaPhong() == maPhong) {
+                if (current.data.getTrangThai().equalsIgnoreCase("Có Người")) {
+                    return true; // Nếu có người ở, trả về true ngay lập tức
+                } else {
+                    return false; // Nếu không có người ở, trả về false
+                }
+            }
+            current = current.next;
+        }
+
+        // Nếu không tìm thấy phòng
+        System.out.println("Không tìm thấy phòng có mã: " + maPhong);
+        return false;
+    }
+
+
     public void updateTrangThai(int maPhong) {
         Scanner sc = new Scanner(System.in);
         NodePhong current = searchPhong(maPhong);
+
+        // Kiểm tra xem phòng có tồn tại không
         if (current == null) {
             System.out.println("Không tìm thấy phòng có mã: " + maPhong);
+            return;
+        }
+
+        // Kiểm tra xem phòng có người ở không
+        if (checkPhongCoNguoi(maPhong)) {
+            System.out.println("Phòng này đang có người ở không thể cập nhật trạng thái!");
             return;
         }
 
         String trangThai = "";
         boolean validChoice = false; // Biến để kiểm tra lựa chọn hợp lệ
 
+        // Nhập trạng thái phòng
         while (!validChoice) {
-            System.out.println("Nhập trạng thái: (1 - Phòng trống, 2 - Có người, 3 - Bị Hư)");
-            int chon = sc.nextInt();
-            sc.nextLine();
+            System.out.println("Nhập trạng thái: (1 - Phòng trống, 2 - Bị Hư)");
+            int chon;
+
+            // Kiểm tra nhập liệu có phải là số hay không
+            try {
+                chon = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Nhập sai! Vui lòng nhập lại!");
+                continue; // Trở về đầu vòng lặp
+            }
 
             switch (chon) {
                 case 1:
@@ -140,10 +177,6 @@ public class DoublyLinkedListPhong {
                     validChoice = true;
                     break;
                 case 2:
-                    trangThai = "Có Người";
-                    validChoice = true;
-                    break;
-                case 3:
                     trangThai = "Bị Hư";
                     validChoice = true;
                     break;
@@ -157,6 +190,7 @@ public class DoublyLinkedListPhong {
         PhongService.updateTrangThai(maPhong, trangThai);
         System.out.println("Cập nhật phòng có mã " + maPhong + " thành công.");
     }
+
 
 
     public void updatePhong(int maPhong, Phong phongMoi) {
@@ -221,5 +255,14 @@ public class DoublyLinkedListPhong {
         System.out.println("Tổng số phòng " + trangThai + ": " + count);
     }
 
+    public void updateStatusWithHopDong(int maPhong) {
+        NodePhong current = searchPhong(maPhong);
+        String trangThai = "Có Người";
+
+        // Cập nhật trạng thái phòng
+        current.data.setTrangThai(trangThai);
+        PhongService.updateTrangThai(maPhong, trangThai);
+        System.out.println("Cập nhật phòng có mã " + maPhong + " thành công.");
+    }
 
 }

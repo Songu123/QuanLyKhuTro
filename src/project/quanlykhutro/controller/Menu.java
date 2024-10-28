@@ -51,9 +51,10 @@ public class Menu {
         System.out.println("+---------------------------------------------------+");
         System.out.println("| 1. Thêm dịch vụ                                   |");
         System.out.println("| 2. Sửa dịch vụ                                    |");
-        System.out.println("| 3. Xoá dịch vụ                                    |");
+        System.out.println("| 3. Cập nhật trạng thái dịch vụ                    |");
         System.out.println("| 4. Tìm kiếm dịch vụ                               |");
         System.out.println("| 5. Hiển thị danh sách dịch vụ                     |");
+        System.out.println("| 6. Sắp xếp danh sách dịch vụ theo giá             |");
         System.out.println("| 0. Thoát                                          |");
         System.out.println("+---------------------------------------------------+");
     }
@@ -78,8 +79,8 @@ public class Menu {
         System.out.println("+---------------------------------------------------+");
         System.out.println("|               QUẢN LÝ HÓA ĐƠN                     |");
         System.out.println("+---------------------------------------------------+");
-        System.out.println("| 1. Lập hóa đơn mới                                |");
-        System.out.println("| 2. Xem chi tiết hóa đơn                                |");
+        System.out.println("| 1. Tạo hóa đơn hàng tháng                         |");
+        System.out.println("| 2. Xem chi tiết hóa đơn                           |");
         System.out.println("| 3. Cập nhật trạng thái thanh toán                 |");
         System.out.println("| 4. Xem danh sách hóa đơn                          |");
         System.out.println("| 5. Thống kê công nợ                               |");

@@ -17,19 +17,31 @@ public class DichVuService {
     public static Connection conn = dao.connectionDB();
 
     public static void addDichVu(DichVu dichVu) {
-        String sql = "INSERT INTO DichVu VALUES (?, ?, ?)";
-//        Date date = format.parse(dichVu.getNgaySinh());
+        String sql = "INSERT INTO DichVu (TenDichVu, DonGia, TrangThai) VALUES (?, ?, ?)";
         try {
+            // Khởi tạo PreparedStatement
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, dichVu.getMaDichVu());
-            ps.setString(2, dichVu.getTenDichVu());
-            ps.setFloat(3, dichVu.getDonGia());
-            ps.executeUpdate();
 
+            // Thiết lập các tham số cho câu truy vấn
+            ps.setString(1, dichVu.getTenDichVu());
+            ps.setFloat(2, dichVu.getDonGia());
+            ps.setString(3, dichVu.getTrangThai());
+
+            // Thực hiện cập nhật
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Đã thêm dịch vụ thành công: " + dichVu.getTenDichVu());
+            } else {
+                System.out.println("Không có dịch vụ nào được thêm.");
+            }
         } catch (SQLException e) {
+            System.err.println("Lỗi khi thêm dịch vụ: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
+
+
 
     public static DichVu getDichVuById(int maDichVu) {
         DichVu dichVu = null;
@@ -43,6 +55,7 @@ public class DichVuService {
                 dichVu.setMaDichVu(rs.getInt("MaDichVu"));
                 dichVu.setTenDichVu(rs.getString("TenDichVu"));
                 dichVu.setDonGia(rs.getFloat("DonGia"));
+                dichVu.setTrangThai(rs.getString("TrangThai"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -60,6 +73,7 @@ public class DichVuService {
                 dichVu.setMaDichVu(rs.getInt("MaDichVu"));
                 dichVu.setTenDichVu(rs.getString("TenDichVu"));
                 dichVu.setDonGia(rs.getFloat("DonGia"));
+                dichVu.setTrangThai(rs.getString("TrangThai"));
 
                 listDichVu.addLast(dichVu);
             }
@@ -76,6 +90,18 @@ public class DichVuService {
             ps.setString(1, dichVu.getTenDichVu());
             ps.setFloat(2, dichVu.getDonGia());
             ps.setInt(3, maDichVu);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateStatus(int maDichVu, String trangThai) {
+        String sql = "UPDATE DichVu SET TrangThai = ?  WHERE MaDichVu = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, trangThai);
+            ps.setInt(2, maDichVu);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -110,10 +136,13 @@ public class DichVuService {
                 dichVu.setMaDichVu(resultSet.getInt("MaDichVu"));
                 dichVu.setTenDichVu(resultSet.getString("TenDichVu"));
                 dichVu.setDonGia(resultSet.getFloat("DonGia"));
+                dichVu.setTrangThai(resultSet.getString("TrangThai"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return dichVu;
     }
+
+
 }

@@ -1,16 +1,28 @@
 package project.quanlykhutro.models;
 
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
+
 public class DichVu {
     private int maDichVu;
     private String tenDichVu;
     private float donGia;
+    private String trangThai;
 
-    public DichVu(String tenDichVu, float donGia) {
+    public DichVu(String tenDichVu, float donGia, String trangThai) {
         this.tenDichVu = tenDichVu;
         this.donGia = donGia;
+        this.trangThai = trangThai;
     }
 
     public DichVu() {
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
     }
 
     public int getMaDichVu() {

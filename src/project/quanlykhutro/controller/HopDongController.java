@@ -51,7 +51,8 @@ public class HopDongController {
                     xemChiTietHopDong();
                     break;
                 case 0:
-                    break;
+                    System.out.println("Bạn đã thoát quản lý hợp đồng");
+                    return;
                 default:
                     System.out.println("Nhập sai! Vui lòng nhập lại (0-6)!");
             }
@@ -119,11 +120,11 @@ public class HopDongController {
 
                 // Kiểm tra ngày bắt đầu
                 if (ngayBatDau.isBefore(LocalDate.now())) {
-                    System.out.println("Lỗi: Ngày bắt đầu không được trong quá khứ! Vui lòng nhập lại sau hoặc trong" + (LocalDate.now()) + "!");
+                    System.out.println("Lỗi: Ngày bắt đầu không được trong quá khứ! Vui lòng nhập lại.");
                 }
                 // Kiểm tra ngày kết thúc
                 else if (ngayKetThuc.isBefore(ngayBatDau) || ngayKetThuc.isEqual(ngayBatDau)) {
-                    System.out.println("Lỗi: Ngày kết thúc phải sau ngày bắt đầu! Vui lòng nhập lại sau hoặc trong" + (ngayBatDau) + "!");
+                    System.out.println("Lỗi: Ngày kết thúc phải sau ngày bắt đầu! Vui lòng nhập lại.");
                 } else {
                     break; // Thoát khỏi vòng lặp khi ngày hợp lệ
                 }
@@ -134,23 +135,9 @@ public class HopDongController {
             }
         }
 
+
         // Nhập giá thuê hợp đồng
-        float giaThue = 0;
-        while (true) {
-            try {
-                System.out.println("Nhập giá thuê: ");
-                giaThue = Float.parseFloat(sc.nextLine());
-                if (giaThue > 0) {
-                    break;
-                } else {
-                    System.out.println("Giá thuê không hợp lệ! Vui lòng nhập số lớn hơn 0!");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Lỗi: Vui lòng nhập một số hợp lệ cho giá thuê!");
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
+        float giaThue = PhongController.getPhongWithId(maPhong).getGiaThue();
 
         // Nhập tiền cọc
         float tienCoc = 0;
@@ -183,6 +170,7 @@ public class HopDongController {
             HopDong hopDong = nhapThongTin();
             HopDongService.addHopDong(hopDong);
             listHopDong.addLast(HopDongService.getLastRow());
+            PhongController.updatePhongWithHopDong(HopDongService.getLastRow().getMaPhong());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -363,5 +351,7 @@ public class HopDongController {
         System.out.println("+-----------------------------------------------------------+");
     }
 
-
+    public static float getGiaThue(int maHopDong) {
+        return listHopDong.getHopDong(maHopDong).data.getGiaThueHopDong();
+    }
 }

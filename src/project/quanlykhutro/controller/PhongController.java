@@ -88,26 +88,8 @@ public class PhongController {
         }
 
         // Nhập trạng thái phòng
-        String trangThai = "";
-        while (true) {
-            System.out.println("Nhập trạng thái (Nhấn 1 'Phòng trống', 2 'Phòng có người'): ");
-            int chon;
-            try {
-                chon = Integer.parseInt(sc.nextLine());
+        String trangThai = "Trống";
 
-                if (chon == 1) {
-                    trangThai = "Trống";
-                    break;
-                } else if (chon == 2) {
-                    trangThai = "Có Người";
-                    break;
-                } else {
-                    System.out.println("Nhập sai! Vui lòng nhập lại (1 hoặc 2)!");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Lỗi: Vui lòng nhập số (1 hoặc 2)!");
-            }
-        }
 
         // Nhập mô tả
         String moTa = "";
@@ -198,6 +180,13 @@ public class PhongController {
             System.out.println("Nhập ID Phòng muốn cập nhật: ");
             int id = Integer.parseInt(sc.nextLine());
 
+            // Kiểm tra xem phòng có người ở không
+            if (listPhong.checkPhongCoNguoi(id)) {
+                System.out.println("Phòng này đang có người ở không thể cập nhật phòng!");
+                return;
+            }
+
+
             Phong phong = nhapThongTin();
             listPhong.updatePhong(id, phong);
             PhongService.updatePhong(phong, id);
@@ -242,7 +231,15 @@ public class PhongController {
             listPhong.timKiemPhongTheoTrangThai(trangThai);
             break;
         }
+    }
 
+    public static Phong getPhongWithId(int maPhong) {
+        NodePhong newNode = listPhong.searchPhong(maPhong);
+        Phong phong = new Phong(newNode.data.getDienTich(), newNode.data.getGiaThue(), newNode.data.getTrangThai(), newNode.data.getMoTa(), newNode.data.getMaQuanLy());
+        return phong;
+    }
 
+    public static void updatePhongWithHopDong(int maPhong) {
+        listPhong.updateStatusWithHopDong(maPhong);
     }
 }

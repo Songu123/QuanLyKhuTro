@@ -7,6 +7,8 @@ import project.quanlykhutro.models.DichVu;
 import project.quanlykhutro.services.DichVuService;
 import project.quanlykhutro.services.DichVuService;
 
+import javax.xml.soap.Node;
+
 public class DoublyLinkedListDichVu {
     private NodeDichVu first, last;
     private int size;
@@ -45,7 +47,7 @@ public class DoublyLinkedListDichVu {
             last = newNode;
         }
         size++;
-        System.out.println("Them dichVu thanh cong!");
+//        System.out.println("Them dichVu thanh cong!");
     }
 
     public NodeDichVu searchDichVu(int maDichVu) {
@@ -54,10 +56,10 @@ public class DoublyLinkedListDichVu {
 
         while (current != null) {
             if (current.data.getMaDichVu() == maDichVu) {
-//                System.out.printf("| %-10d | %-20s | %-10.2f |\n",
-//                        current.data.getMaDichVu(),
-//                        current.data.getTenDichVu(),
-//                        current.data.getDonGia());
+                System.out.printf("| %-10d | %-20s | %-10.2f |\n",
+                        current.data.getMaDichVu(),
+                        current.data.getTenDichVu(),
+                        current.data.getDonGia());
                 found = true;
                 break;
             }
@@ -72,6 +74,30 @@ public class DoublyLinkedListDichVu {
         return current;
     }
 
+    public void hienThiDichVu(NodeDichVu nodeDichVu) {
+        System.out.printf("| %-10d | %-20s | %-10.2f |\n",
+                nodeDichVu.data.getMaDichVu(),
+                nodeDichVu.data.getTenDichVu(),
+                nodeDichVu.data.getDonGia());
+    }
+
+    public NodeDichVu searchDichVuDeQuy(int maDichVu) {
+        return searchDichVuDeQuy(first, maDichVu);
+    }
+
+//    Dùng thuật toán đệ quy để tìm kiếm
+    public NodeDichVu searchDichVuDeQuy(NodeDichVu nodeDichVu, int maDichVu) {
+        if (nodeDichVu == null) {
+            return null;
+        }
+
+        if (nodeDichVu.data.getMaDichVu() == maDichVu) {
+            return nodeDichVu; // Trả về nodeDichVu nếu tìm thấy
+        }
+
+        return searchDichVuDeQuy(nodeDichVu.next, maDichVu); // Tiếp tục tìm kiếm bằng đệ quy
+    }
+
     public void duyetListDichVu(int maHoaDon) {
         NodeDichVu current = first;
         while (current != null) {
@@ -81,16 +107,17 @@ public class DoublyLinkedListDichVu {
     }
 
     public void printListDichVu() {
-        NodeDichVu current = first;
+        NodeDichVu current = first; // Giả sử 'first' là nút đầu tiên của danh sách
         while (current != null) {
-            System.out.printf("| %-10d | %-20s | %-10.2f |\n",
+            // In từng dịch vụ với định dạng bảng, bao gồm trạng thái
+            System.out.printf("| %-10d | %-20s | %-10.2f | %-10s |\n",
                     current.data.getMaDichVu(),
                     current.data.getTenDichVu(),
-                    current.data.getDonGia());
-
-            current = current.next;
+                    current.data.getDonGia(),
+                    current.data.getTrangThai()); // Thêm trạng thái vào đây
+            current = current.next; // Di chuyển đến nút tiếp theo
         }
-        System.out.println("+------------+----------------------+------------+");
+        System.out.println("+------------+----------------------+------------+------------+"); // In dòng dưới cùng
     }
 
     public void deleteDichVu(int maDichVu) {
@@ -125,14 +152,14 @@ public class DoublyLinkedListDichVu {
         }
 
         size--;
-        System.out.println("Xóa phòng có mã " + maDichVu + " thành công.");
+        System.out.println("Xóa dịch vụ có mã " + maDichVu + " thành công.");
     }
 
     public void updateDichVu(int maDichVu, DichVu dichVuMoi) {
-        NodeDichVu current = searchDichVu(maDichVu);
+        NodeDichVu current = searchDichVuDeQuy(maDichVu);
 
         if (current == null) {
-            System.out.println("Không tìm thấy phòng có mã: " + maDichVu);
+            System.out.println("Không tìm thấy dịch vụ có mã: " + maDichVu);
             return;
         }
 
@@ -141,5 +168,41 @@ public class DoublyLinkedListDichVu {
         current.data.setDonGia(dichVuMoi.getDonGia());
 
         System.out.println("Cập nhật phòng có mã " + maDichVu + " thành công.");
+    }
+
+//    Dùng thuật toán sắp xếp nổi bọt để sắp xếp
+    public void bubbleSort() {
+        if (first == null) return;
+
+        boolean swapped;
+        NodeDichVu current;
+
+        do {
+            swapped = false;
+            current = first;
+
+            while (current.next != null) {
+                if (current.data.getDonGia() > current.next.data.getDonGia()) {
+                    // Đổi chỗ dữ liệu của hai node
+                    int maDichVu = current.data.getMaDichVu();
+                    String tenDichVu = current.data.getTenDichVu();
+                    float donGia = current.data.getDonGia();
+
+                    current.data.setMaDichVu(current.next.data.getMaDichVu());
+                    current.data.setTenDichVu(current.next.data.getTenDichVu());
+                    current.data.setDonGia(current.next.data.getDonGia());
+
+                    current.next.data.setMaDichVu(maDichVu);
+                    current.next.data.setTenDichVu(tenDichVu);
+                    current.next.data.setDonGia(donGia);
+                    swapped = true;
+                }
+                current = current.next;
+            }
+        } while (swapped);
+    }
+
+    public void updateStatus(int id, String trangThai) {
+        searchDichVuDeQuy(id).data.setTrangThai(trangThai);
     }
 }
