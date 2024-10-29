@@ -8,13 +8,11 @@ import project.quanlykhutro.services.NguoiThueService;
 public class DoublyLinkedListNguoiThue {
     private NodeNguoiThue first, last;
     private int size;
-    private NguoiThueService nguoiThueService;
 
     public DoublyLinkedListNguoiThue() {
         this.first = null;
         this.last = null;
         this.size = 0;
-        this.nguoiThueService = nguoiThueService;
         loadDataFromDatabase();
     }
 
@@ -75,7 +73,6 @@ public class DoublyLinkedListNguoiThue {
     }
 
 
-
     public void printListNguoiThue() {
         NodeNguoiThue current = first;
         while (current != null) {
@@ -86,12 +83,13 @@ public class DoublyLinkedListNguoiThue {
                     current.data.getGioiTinh(),
                     current.data.getDiaChi(),
                     current.data.getSoDienThoai(),
-                    current.data.getTrangThai()); // Thêm trạng thái
+                    current.data.getTrangThai());
 
             current = current.next;
         }
-        System.out.println("+------------+----------------------+------------+----------+------------------------------------+--------------+");
+        System.out.println("+------------+----------------------+------------+----------+------------------------------------+--------------+--------------+");
     }
+
 
 
     public void deleteNguoiThue(int maNguoiThue) {
@@ -160,4 +158,17 @@ public class DoublyLinkedListNguoiThue {
 
         System.out.println("Cập nhật phòng có mã " + maNguoiThue + " thành công.");
     }
+
+    public boolean checkNguoiThue(int maNguoiThue) {
+        NodeNguoiThue current = first;
+        while (current != null) {
+            if (current.data.getMaNguoiThue() == maNguoiThue &&
+                    current.data.getTrangThai().equalsIgnoreCase("Đang Thuê")) {
+                return false; // Người thuê đã thuê phòng, không thể thuê thêm
+            }
+            current = current.next;
+        }
+        return true; // Người thuê chưa thuê phòng
+    }
+
 }

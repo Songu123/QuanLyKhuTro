@@ -61,13 +61,23 @@ public class HopDongController {
 
     public static HopDong nhapThongTin() {
         HopDong hopDong;
-        int maPhong;
         Scanner sc = new Scanner(System.in);
+        int maPhong = -1;
+        int maNguoiThue = -1;
+
+        // Kiểm tra phòng trống
+        if (PhongController.checkPhongTrong()) {
+            System.out.println("Phòng còn trống, xin mời tiếp tục!");
+        } else {
+            System.out.println("Phòng đã hết! Vui lòng thông cảm!");
+            return null; // Kết thúc nếu không còn phòng trống
+        }
 
         // Nhập mã phòng
         while (true) {
             try {
-                System.out.println("Nhập mã phòng: ");
+                PhongController.printListPhong();
+                System.out.print("Nhập mã phòng: ");
                 maPhong = Integer.parseInt(sc.nextLine());
                 if (checkPhong(maPhong)) {
                     System.out.println("Phòng này trống! Mời bạn tiếp tục");
@@ -78,25 +88,29 @@ public class HopDongController {
             } catch (NumberFormatException e) {
                 System.out.println("Lỗi: Vui lòng nhập một số hợp lệ cho mã phòng!");
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println("Lỗi không xác định: " + e.getMessage());
             }
         }
 
         // Nhập mã người thuê
-        int maNguoiThue = 0;
         while (true) {
             try {
-                System.out.println("Nhập mã người thuê: ");
+                NguoiThueController.printListNguoiThue();
+                System.out.print("Nhập mã người thuê: ");
                 maNguoiThue = Integer.parseInt(sc.nextLine());
 
-                if (maNguoiThue > 0) {
-                    if (HopDongService.checkMaNguoiThue(maNguoiThue)) {
+                // Kiểm tra mã người thuê có tồn tại và hợp lệ
+                if (maNguoiThue > 0 && HopDongService.checkMaNguoiThue(maNguoiThue)) {
+
+                    // Kiểm tra người thuê đã có phòng chưa hoặc đang ở trạng thái chờ
+                    if (NguoiThueController.checkNguoiThue(maNguoiThue)) {
+                        System.out.println("Người thuê hợp lệ! Tiếp tục với hợp đồng.");
                         break;
                     } else {
-                        System.out.println("Lỗi: Mã người thuê không tồn tại!");
+                        System.out.println("Người thuê đã thuê phòng! Không thể thuê phòng khác.");
                     }
                 } else {
-                    System.out.println("Lỗi: Mã người thuê phải là một số dương!");
+                    System.out.println("Lỗi: Mã người thuê không tồn tại hoặc không hợp lệ! Vui lòng chọn lại.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Lỗi: Vui lòng nhập một số hợp lệ cho mã người thuê!");
@@ -106,44 +120,34 @@ public class HopDongController {
         }
 
 
-        // Nhập ngày bắt đầu và ngày kết thúc
+        // Nhập ngày bắt đầu và ngày kết thúc với yêu cầu thuê tối thiểu 3 tháng
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate ngayBatDau, ngayKetThuc;
+        LocalDate ngayBatDau = LocalDate.now();
+        LocalDate ngayKetThuc = null;
 
         while (true) {
             try {
-                System.out.println("Nhập ngày bắt đầu (định dạng: yyyy-MM-dd): ");
-                ngayBatDau = LocalDate.parse(sc.nextLine(), formatter);
-
-                System.out.println("Nhập ngày kết thúc (định dạng: yyyy-MM-dd): ");
+                System.out.print("Nhập ngày kết thúc (định dạng: yyyy-MM-dd): ");
                 ngayKetThuc = LocalDate.parse(sc.nextLine(), formatter);
 
-                // Kiểm tra ngày bắt đầu
-                if (ngayBatDau.isBefore(LocalDate.now())) {
-                    System.out.println("Lỗi: Ngày bắt đầu không được trong quá khứ! Vui lòng nhập lại.");
-                }
-                // Kiểm tra ngày kết thúc
-                else if (ngayKetThuc.isBefore(ngayBatDau) || ngayKetThuc.isEqual(ngayBatDau)) {
-                    System.out.println("Lỗi: Ngày kết thúc phải sau ngày bắt đầu! Vui lòng nhập lại.");
+                if (ngayKetThuc.isBefore(ngayBatDau.plusMonths(3))) {
+                    System.out.println("Lỗi: Thời hạn thuê phải từ 3 tháng trở lên kể từ ngày hiện tại! Vui lòng nhập lại.");
                 } else {
-                    break; // Thoát khỏi vòng lặp khi ngày hợp lệ
+                    break;
                 }
             } catch (DateTimeParseException e) {
                 System.out.println("Lỗi: Vui lòng nhập ngày theo định dạng yyyy-MM-dd!");
-            } catch (Exception e) {
-                System.out.println("Lỗi không xác định: " + e.getMessage());
             }
         }
 
-
-        // Nhập giá thuê hợp đồng
+        // Lấy giá thuê phòng từ ID phòng
         float giaThue = PhongController.getPhongWithId(maPhong).getGiaThue();
 
         // Nhập tiền cọc
-        float tienCoc = 0;
+        float tienCoc = -1;
         while (true) {
             try {
-                System.out.println("Nhập tiền cọc: ");
+                System.out.print("Nhập tiền cọc: ");
                 tienCoc = Float.parseFloat(sc.nextLine());
                 if (tienCoc > 0) {
                     break;
@@ -152,12 +156,10 @@ public class HopDongController {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Lỗi: Vui lòng nhập một số hợp lệ cho tiền cọc!");
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
             }
         }
 
-        // Tạo hợp đồng mới
+        // Tạo hợp đồng mới và thông báo
         hopDong = new HopDong(maPhong, maNguoiThue, ngayBatDau, ngayKetThuc, giaThue, tienCoc);
         System.out.println("Đã nhập thành công thông tin hợp đồng!");
         System.out.println(hopDong);
@@ -165,9 +167,13 @@ public class HopDongController {
         return hopDong;
     }
 
+
+
     public static void addHopDong() {
         try {
             HopDong hopDong = nhapThongTin();
+            assert hopDong != null;
+            System.out.println("Ma phong: " + hopDong.getMaPhong());
             HopDongService.addHopDong(hopDong);
             listHopDong.addLast(HopDongService.getLastRow());
             PhongController.updatePhongWithHopDong(HopDongService.getLastRow().getMaPhong());
@@ -354,4 +360,5 @@ public class HopDongController {
     public static float getGiaThue(int maHopDong) {
         return listHopDong.getHopDong(maHopDong).data.getGiaThueHopDong();
     }
+
 }

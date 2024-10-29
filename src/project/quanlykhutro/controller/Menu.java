@@ -9,7 +9,7 @@ public class Menu {
         System.out.println("| 1. Quản lý phòng                                  |");
         System.out.println("| 2. Quản lý người thuê                             |");
         System.out.println("| 3. Quản lý dịch vụ                                |");
-        System.out.println("| 4. Quản lý hợp đồng                               |");
+        System.out.println("| 4. Quản lý thuê phòng                             |");
         System.out.println("| 5. Quản lý trả phòng                              |");
         System.out.println("| 0. Thoát                                          |");
         System.out.println("+---------------------------------------------------+");
