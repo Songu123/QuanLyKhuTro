@@ -265,4 +265,22 @@ public class DoublyLinkedListPhong {
         System.out.println("Cập nhật phòng có mã " + maPhong + " thành công.");
     }
 
+    public boolean checkPhongTrong() {
+        NodePhong current = first;
+        int count = 0;
+
+        // Duyệt qua danh sách liên kết đôi
+        while (current != null) {
+            // Kiểm tra nếu phòng đang trống
+            if (current.data.getTrangThai().equalsIgnoreCase("Trống")) {
+                count++;
+
+            }
+            current = current.next;
+        }
+        System.out.println("Tổng số phòng trống: " + count);
+        return count > 0;
+
+    }
+
 }

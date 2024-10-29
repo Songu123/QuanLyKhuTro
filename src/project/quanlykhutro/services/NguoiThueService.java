@@ -23,7 +23,7 @@ public class NguoiThueService {
 
     public static void addNguoiThue(NguoiThue nguoiThue) {
         // Nếu bảng có cột tự động tăng, bạn cần chỉ định cụ thể các cột trong câu lệnh SQL
-        String sql = "INSERT INTO NguoiThue (Ten, NgaySinh, GioiTinh, DiaChi, SoDienThoai) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO NguoiThue (Ten, NgaySinh, GioiTinh, DiaChi, SoDienThoai, TrangThai) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -37,6 +37,7 @@ public class NguoiThueService {
             ps.setString(3, nguoiThue.getGioiTinh());
             ps.setString(4, nguoiThue.getDiaChi());
             ps.setString(5, nguoiThue.getSoDienThoai());
+            ps.setString(6, nguoiThue.getTrangThai());
 
             // Thực thi lệnh SQL
             ps.executeUpdate();
@@ -63,6 +64,7 @@ public class NguoiThueService {
                 nguoiThue.setGioiTinh(rs.getString("GioiTinh"));
                 nguoiThue.setDiaChi(rs.getString("DiaChi"));
                 nguoiThue.setSoDienThoai(rs.getString("SoDienThoai"));
+                nguoiThue.setTrangThai(rs.getString("TrangThai"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -83,6 +85,7 @@ public class NguoiThueService {
                 nguoiThue.setGioiTinh(rs.getString("GioiTinh"));
                 nguoiThue.setDiaChi(rs.getString("DiaChi"));
                 nguoiThue.setSoDienThoai(rs.getString("SoDienThoai"));
+                nguoiThue.setTrangThai(rs.getString("TrangThai"));
 
                 listNguoiThue.addLast(nguoiThue);
                 System.out.println("Thêm thành công!");

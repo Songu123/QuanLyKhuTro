@@ -15,9 +15,9 @@ public class Main {
 
 //        DichVuController.run();
 //        QuanLyKhuTroController.run();
-        PhongController.run();
+//        PhongController.run();
 //        HopDongController.run();
-//        HoaDonController.run();
+        HoaDonController.run();
 //        DoublyLinkedListChiTietHoaDon listChiTietHoaDon = new DoublyLinkedListChiTietHoaDon();
 //        System.out.println(listChiTietHoaDon.tinhTongTien(30));
     }

@@ -173,10 +173,10 @@ public class NguoiThueController {
 //    }
 
     public static void hienThiTieuDeNguoiThue() {
-        System.out.println("+------------+----------------------+------------+----------+------------------------------------+--------------+");
-        System.out.printf("| %-10s | %-20s | %-10s | %-8s | %-35s | %-12s |\n",
-                "MaNguoiThue", "HoTen", "NgaySinh", "GioiTinh", "DiaChi", "SoDienThoai");
-        System.out.println("+------------+----------------------+------------+----------+------------------------------------+--------------+");
+        System.out.println("+------------+----------------------+------------+----------+------------------------------------+--------------+--------------+");
+        System.out.printf("| %-10s | %-20s | %-10s | %-8s | %-35s | %-12s | %-12s |\n",
+                "MaNguoiThue", "HoTen", "NgaySinh", "GioiTinh", "DiaChi", "SoDienThoai", "TrangThai");
+        System.out.println("+------------+----------------------+------------+----------+------------------------------------+--------------+--------------+");
     }
 
     public static void searchNguoiThue() {
@@ -262,6 +262,10 @@ public class NguoiThueController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static boolean checkNguoiThue(int maNguoiThue){
+        return listNguoiThue.checkNguoiThue(maNguoiThue);
     }
 
 

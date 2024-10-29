@@ -182,19 +182,30 @@ public class PhongController {
 
             // Kiểm tra xem phòng có người ở không
             if (listPhong.checkPhongCoNguoi(id)) {
-                System.out.println("Phòng này đang có người ở không thể cập nhật phòng!");
+                System.out.println("Phòng này đang có người ở, không thể cập nhật thông tin phòng!");
                 return;
             }
 
+            if (listPhong.searchPhong(id) == null){
+//                System.out.println("Không tìm thấy mã phòng tồn tại!");
+                return;
+            }
 
+            // Nhập thông tin mới cho phòng
             Phong phong = nhapThongTin();
+
+            // Thực hiện cập nhật thông tin phòng
             listPhong.updatePhong(id, phong);
             PhongService.updatePhong(phong, id);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+            System.out.println("Cập nhật thông tin phòng thành công.");
 
+        } catch (NumberFormatException e) {
+            System.out.println("Lỗi: Vui lòng nhập một số hợp lệ cho ID phòng.");
+        } catch (Exception e) {
+            System.out.println("Lỗi không xác định: " + e.getMessage());
+        }
     }
+
 
     public static void printListPhong() {
         try {
@@ -241,5 +252,9 @@ public class PhongController {
 
     public static void updatePhongWithHopDong(int maPhong) {
         listPhong.updateStatusWithHopDong(maPhong);
+    }
+
+    public static boolean checkPhongTrong() {
+        return listPhong.checkPhongTrong();
     }
 }

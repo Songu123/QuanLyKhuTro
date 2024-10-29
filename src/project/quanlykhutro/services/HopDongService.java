@@ -21,10 +21,10 @@ public class HopDongService {
     public DateFormat format  = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
     public static void addHopDong(HopDong hopDong){
-        String sql = "INSERT INTO HopDong VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO HopDong (MaPhong, MaNguoiThue, NgayBatDau, NgayKetThuc, GiaThueHopDong, TienCoc) VALUES (?, ?, ?, ?, ?, ?)\n";
         try{
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, hopDong.getMaHopDong());
+            ps.setInt(1, hopDong.getMaPhong());
             ps.setInt(2, hopDong.getMaNguoiThue());
             ps.setDate(3, java.sql.Date.valueOf(hopDong.getNgayBatDau()));
             ps.setDate(4, java.sql.Date.valueOf(hopDong.getNgayKetThuc()));
