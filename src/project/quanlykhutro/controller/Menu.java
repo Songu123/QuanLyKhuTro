@@ -10,7 +10,9 @@ public class Menu {
         System.out.println("| 2. Quản lý người thuê                             |");
         System.out.println("| 3. Quản lý dịch vụ                                |");
         System.out.println("| 4. Quản lý thuê phòng                             |");
-        System.out.println("| 5. Quản lý trả phòng                              |");
+//        System.out.println("| 5. Quản lý trả phòng                              |");
+        System.out.println("| 5. Quản lý hoá đơn                                |");
+        System.out.println("| 6. Báo cáo và thống kê                            |");
         System.out.println("| 0. Thoát                                          |");
         System.out.println("+---------------------------------------------------+");
     }
@@ -26,6 +28,7 @@ public class Menu {
         System.out.println("| 5. Tìm kiếm phòng theo trạng thái                 |");
         System.out.println("| 6. Tìm kiếm phòng theo ID                         |");
         System.out.println("| 7. Xem danh sách phòng                            |");
+        System.out.println("| 8. Sắp xếp phòng theo giá thuê (Merge Sort)       |");
         System.out.println("| 0. Thoát                                          |");
         System.out.println("+---------------------------------------------------+");
     }
@@ -54,7 +57,7 @@ public class Menu {
         System.out.println("| 3. Cập nhật trạng thái dịch vụ                    |");
         System.out.println("| 4. Tìm kiếm dịch vụ                               |");
         System.out.println("| 5. Hiển thị danh sách dịch vụ                     |");
-        System.out.println("| 6. Sắp xếp danh sách dịch vụ theo giá             |");
+        System.out.println("| 6. Sắp xếp danh sách dịch vụ theo giá(Bubble Sort)|");
         System.out.println("| 0. Thoát                                          |");
         System.out.println("+---------------------------------------------------+");
     }

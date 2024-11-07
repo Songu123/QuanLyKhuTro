@@ -96,7 +96,7 @@ public class NguoiThueService {
     }
 
     public static void updateNguoiThue(NguoiThue nguoiThue, int maNguoiThue) {
-        String sql = "UPDATE NguoiThue SET Ten = ?, NgaySinh = ?, GioiTinh = ?, DiaChi = ?, SoDienThoai = ?,TrangThai = ?  WHERE MaNguoiThue = ?";
+        String sql = "UPDATE NguoiThue SET Ten = ?, NgaySinh = ?, GioiTinh = ?, DiaChi = ?, SoDienThoai = ? WHERE MaNguoiThue = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, nguoiThue.getTen());
@@ -104,8 +104,8 @@ public class NguoiThueService {
             ps.setString(3, nguoiThue.getGioiTinh());
             ps.setString(4, nguoiThue.getDiaChi());
             ps.setString(5, nguoiThue.getSoDienThoai());
-            ps.setString(6, nguoiThue.getTrangThai());
-            ps.setInt(7, maNguoiThue);
+//            ps.setString(6, nguoiThue.getTrangThai());
+            ps.setInt(6, maNguoiThue);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

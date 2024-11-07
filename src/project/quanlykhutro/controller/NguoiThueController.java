@@ -14,7 +14,6 @@ import java.util.Locale;
 import java.util.Scanner;
 
 
-
 public class NguoiThueController {
     public static Scanner sc = new Scanner(System.in);
     public static DoublyLinkedListNguoiThue listNguoiThue = new DoublyLinkedListNguoiThue();
@@ -23,36 +22,40 @@ public class NguoiThueController {
         while (true) {
             Menu.menuQuanLyNguoiThue();
             System.out.println("Vui lòng chọn chức năng (0-6): ");
-            int chon = Integer.parseInt(sc.nextLine());
-            switch (chon) {
-                case 1:
-                    addNguoiThue();
-                    break;
-                case 2:
-                    updateNguoiThue();
-                    break;
-                case 3:
-                    deleteNguoiThue();
-                    break;
-                case 4:
-                    updateStatus();
-                    break;
-                case 5:
-                    searchNguoiThue();
-                    break;
-                case 6:
-                    printListNguoiThue();
-                    break;
-                case 0:
-                    break;
-                default:
-                    System.out.println("Nhập sai! Vui lòng nhập lại (0-6)!");
+            try {
+                int chon = Integer.parseInt(sc.nextLine());
+                switch (chon) {
+                    case 1:
+                        addNguoiThue();
+                        break;
+                    case 2:
+                        updateNguoiThue();
+                        break;
+                    case 3:
+                        deleteNguoiThue();
+                        break;
+                    case 4:
+                        updateStatus();
+                        break;
+                    case 5:
+                        searchNguoiThue();
+                        break;
+                    case 6:
+                        printListNguoiThue();
+                        break;
+                    case 0:
+                        return;
+                    default:
+                        System.out.println("Nhập sai! Vui lòng nhập lại (0-6)!");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Lỗi: Vui lòng nhập một số hợp lệ.");
             }
         }
     }
 
-    public static NguoiThue nhapThongTin() {
-        NguoiThue nguoiThue;
+    public static NguoiThue nhapThongTin(String tenHam) {
+        NguoiThue nguoiThue = null;
         String ten;
 
         // Nhập diện tích
@@ -149,18 +152,20 @@ public class NguoiThueController {
             }
         }
 
-        String trangThai = "Đang chờ";
+        if (tenHam.equals("Create")) {
+            nguoiThue = new NguoiThue(ten, ngaySinh, gioiTinh, diaChi, soDienThoai, "Đang Chờ");
+        } else if (tenHam.equals("Update")) {
+            nguoiThue = new NguoiThue(ten, ngaySinh, gioiTinh, diaChi, soDienThoai);
+        }
 
         System.out.println("Đã nhập thành công thông tin người thuê!");
-        nguoiThue = new NguoiThue(ten, ngaySinh, gioiTinh, diaChi, soDienThoai, trangThai);
-        System.out.println(nguoiThue);
         return nguoiThue;
     }
 
 
     public static void addNguoiThue() {
         try {
-            NguoiThue nguoiThue = nhapThongTin();
+            NguoiThue nguoiThue = nhapThongTin("Create");
             NguoiThueService.addNguoiThue(nguoiThue);
             listNguoiThue.addLast(NguoiThueService.getLastRow());
         } catch (Exception e) {
@@ -208,14 +213,16 @@ public class NguoiThueController {
         try {
             System.out.println("Nhập ID Người Thuê muốn cập nhật: ");
             int id = Integer.parseInt(sc.nextLine());
-
-            NguoiThue nguoiThue = nhapThongTin();
+            if (listNguoiThue.searchNguoiThue(id) == null) {
+                System.out.println("Mà người thuê không tồn tại! Vui lòng nhập lại ID!");
+                return;
+            }
+            NguoiThue nguoiThue = nhapThongTin("Update");
             listNguoiThue.updateNguoiThue(id, nguoiThue);
             NguoiThueService.updateNguoiThue(nguoiThue, id);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     public static void updateStatus() {
@@ -223,7 +230,10 @@ public class NguoiThueController {
         try {
             System.out.println("Nhập ID Người Thuê muốn cập nhật: ");
             id = Integer.parseInt(sc.nextLine());
-
+            if (listNguoiThue.searchNguoiThue(id) == null) {
+                System.out.println("Mã người thuê không tồn tại! Vui nhập lại ID!");
+                return;
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -264,7 +274,7 @@ public class NguoiThueController {
         }
     }
 
-    public static boolean checkNguoiThue(int maNguoiThue){
+    public static boolean checkNguoiThue(int maNguoiThue) {
         return listNguoiThue.checkNguoiThue(maNguoiThue);
     }
 

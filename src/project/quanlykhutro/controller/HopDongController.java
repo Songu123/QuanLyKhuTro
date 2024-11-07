@@ -24,7 +24,13 @@ public class HopDongController {
         while (true) {
             Menu.menuQuanLyHopDong();
             System.out.println("Vui lòng chọn chức năng (0-6): ");
-            int chon = Integer.parseInt(sc.nextLine());
+            int chon;
+            try {
+                chon = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Lỗi: Vui lòng nhập một số hợp lệ!");
+                continue;
+            }
             switch (chon) {
                 case 1:
                     addHopDong();
@@ -166,7 +172,6 @@ public class HopDongController {
 
         return hopDong;
     }
-
 
 
     public static void addHopDong() {

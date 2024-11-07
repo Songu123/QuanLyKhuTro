@@ -35,6 +35,14 @@ public class NguoiThue {
         this.soDienThoai = soDienThoai;
     }
 
+    public NguoiThue(String ten, LocalDate ngaySinh, String gioiTinh, String diaChi, String soDienThoai) {
+        this.ten = ten;
+        this.ngaySinh = ngaySinh;
+        this.gioiTinh = gioiTinh;
+        this.diaChi = diaChi;
+        this.soDienThoai = soDienThoai;
+    }
+
     public String getTrangThai() {
         return trangThai;
     }

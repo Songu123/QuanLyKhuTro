@@ -160,7 +160,7 @@ public class DoublyLinkedListPhong {
 
         // Nhập trạng thái phòng
         while (!validChoice) {
-            System.out.println("Nhập trạng thái: (1 - Phòng trống, 2 - Bị Hư)");
+            System.out.println("Nhập trạng thái: (1 - Phòng trống, 2 - Đang Bảo Trì)");
             int chon;
 
             // Kiểm tra nhập liệu có phải là số hay không
@@ -177,7 +177,7 @@ public class DoublyLinkedListPhong {
                     validChoice = true;
                     break;
                 case 2:
-                    trangThai = "Bị Hư";
+                    trangThai = "Đang Bảo Trì";
                     validChoice = true;
                     break;
                 default:
@@ -281,6 +281,72 @@ public class DoublyLinkedListPhong {
         System.out.println("Tổng số phòng trống: " + count);
         return count > 0;
 
+    }
+
+    private NodePhong split(NodePhong head) {
+        NodePhong fast = head, slow = head;
+        while (fast.next != null && fast.next.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        NodePhong mid = slow.next;
+        slow.next = null;
+        return mid;
+    }
+
+    // Hàm hợp nhất hai danh sách con đã sắp xếp
+    private NodePhong sortedMerge(NodePhong first, NodePhong second) {
+        if (first == null) return second;
+        if (second == null) return first;
+
+        if (first.data.getGiaThue() <= second.data.getGiaThue()) {
+            first.next = sortedMerge(first.next, second);
+            first.next.prev = first;
+            first.prev = null;
+            return first;
+        } else {
+            second.next = sortedMerge(first, second.next);
+            second.next.prev = second;
+            second.prev = null;
+            return second;
+        }
+    }
+
+    // Hàm sắp xếp merge sort cho danh sách liên kết đôi
+    private NodePhong mergeSort(NodePhong node) {
+        if (node == null || node.next == null) return node;
+
+        NodePhong second = split(node);
+
+        // Gọi đệ quy sắp xếp từng nửa danh sách
+        node = mergeSort(node);
+        second = mergeSort(second);
+
+        // Hợp nhất hai nửa đã sắp xếp
+        return sortedMerge(node, second);
+    }
+
+    // Hàm để bắt đầu merge sort
+    public void mergeSort() {
+        if (first != null) {
+            first = mergeSort(first);
+
+            // Cập nhật tail sau khi sắp xếp
+            NodePhong temp = first;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            last = temp;
+        }
+    }
+
+    // Phương thức để in danh sách
+    public void printList() {
+        NodePhong current = first;
+        while (current != null) {
+            System.out.println(current.data); // Giả sử lớp Phong có phương thức toString
+            current = current.next;
+        }
     }
 
 }
