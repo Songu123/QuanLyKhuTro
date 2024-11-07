@@ -47,7 +47,7 @@ public class DoublyLinkedListNguoiThue {
     public NodeNguoiThue searchNguoiThue(int maNguoiThue) {
         NodeNguoiThue current = first;
         boolean found = false;
-
+        NguoiThueController.hienThiTieuDeNguoiThue();
         while (current != null) {
             if (current.data.getMaNguoiThue() == maNguoiThue) {
                 System.out.printf("| %-10d | %-20s | %-10s | %-8s | %-35s | %-12s | %-12s |\n",
@@ -141,7 +141,7 @@ public class DoublyLinkedListNguoiThue {
         current.data.setGioiTinh(nguoiThueMoi.getGioiTinh());
         current.data.setDiaChi(nguoiThueMoi.getDiaChi());
         current.data.setSoDienThoai(nguoiThueMoi.getSoDienThoai());
-        current.data.setTrangThai(nguoiThueMoi.getTrangThai());
+//        current.data.setTrangThai(nguoiThueMoi.getTrangThai());
 
         System.out.println("Cập nhật phòng có mã " + maNguoiThue + " thành công.");
     }

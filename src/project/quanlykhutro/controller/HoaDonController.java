@@ -74,7 +74,7 @@ public class HoaDonController {
                 maHopDong = Integer.parseInt(sc.nextLine());
 
                 if (maHopDong > 0 && HoaDonService.checkMaHopDong(maHopDong)) {
-                    break;
+                    break;  // Thoát khỏi vòng lặp khi mã hợp đồng hợp lệ
                 } else {
                     System.out.println("Lỗi: Mã hợp đồng không tồn tại! Vui lòng nhập lại.");
                 }
@@ -83,19 +83,23 @@ public class HoaDonController {
             }
         }
 
-
         // Tạo đối tượng hóa đơn sau khi nhập thành công
         hoaDon = new HoaDon(maHopDong, ngayPhatHanh, ngayDenHan, tongTien, trangThai);
         return hoaDon;
     }
 
+
     public static void addHoaDon() {
         try {
             HoaDon hoaDon = nhapThongTin();
-            HoaDonService.addHoaDon(hoaDon);
-            ChiTietHoaDonController.nhapChiTietHoaDon(HoaDonService.getIdLastRow());
+            if (hoaDon == null) {
+                return;
+            } else {
+                HoaDonService.addHoaDon(hoaDon);
+                ChiTietHoaDonController.nhapChiTietHoaDon(HoaDonService.getIdLastRow());
+                updateHoaDon(HoaDonService.getLastRow());
+            }
 
-            updateHoaDon(HoaDonService.getLastRow());
 //            hoaDon.setTrangThai(nhapTrangThai());
 //            hoaDon.setTongTien(tinhTongTien(HoaDonService.getIdLastRow(), hoaDon.getMaHopDong()));
 //            HoaDonService.capNhatThongTinHoaDon(HoaDonService.getIdLastRow(), hoaDon.getNgayDenHan(), hoaDon.getTongTien(), hoaDon.getTrangThai());
@@ -136,6 +140,10 @@ public class HoaDonController {
         try {
             System.out.print("Nhập ID hóa đơn muốn cập nhật: ");
             int id = Integer.parseInt(sc.nextLine());
+            if (listHoaDon.searchHoaDon(id) == null) {
+                System.out.println("Mã hóa đơn không tồn tại! Vui lòng nhập lại ID!");
+                return;
+            }
             System.out.print("Nhập trạng thái (1 - Đã thanh Toán, 2 - Chưa Thanh Toán, 3 - Quá Hạn): ");
 
             String trangThai = "";

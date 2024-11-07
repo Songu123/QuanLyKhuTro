@@ -23,6 +23,7 @@ public class ChiTietHoaDonController {
                     break;
                 }
             } catch (Exception e) {
+                System.out.println("Số lượng nhập sai! Vui lòng nhập số lượng hợp lệ!");
                 System.out.println(e.getMessage());
             }
         }

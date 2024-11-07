@@ -19,32 +19,37 @@ public class DichVuController {
         while (true) {
             Menu.menuQuanLyDichVu();
             System.out.println("Vui lòng chọn chức năng (0-6): ");
-            int chon = sc.nextInt();
-            sc.nextLine();
-            switch (chon) {
-                case 1:
-                    addDichVu();
-                    break;
-                case 2:
-                    updateDichVu();
-                    break;
-                case 3:
-                    updateStatus();
-                    break;
-                case 4:
-                    searchDichVu();
-                    break;
-                case 5:
-                    printListDichVu();
-                    break;
-                case 6:
-                    sortWithPrice();
-                    break;
-                case 0:
-                    break;
-                default:
-                    System.out.println("Nhập sai! Vui lòng nhập lại (0-6)!");
+            try {
+                int chon = sc.nextInt();
+                sc.nextLine();
+                switch (chon) {
+                    case 1:
+                        addDichVu();
+                        break;
+                    case 2:
+                        updateDichVu();
+                        break;
+                    case 3:
+                        updateStatus();
+                        break;
+                    case 4:
+                        searchDichVu();
+                        break;
+                    case 5:
+                        printListDichVu();
+                        break;
+                    case 6:
+                        sortWithPrice();
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        System.out.println("Nhập sai! Vui lòng nhập lại (0-6)!");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Lỗi: Vui lòng nhập một số hợp lệ.");
             }
+
         }
     }
 

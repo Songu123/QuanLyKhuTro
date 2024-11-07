@@ -37,9 +37,7 @@ public class DoublyLinkedListHoaDon {
             last.next = newNode;
             newNode.prev = last;
             last = newNode;
-            System.out.println("Tạo hoá đơn thành công!");
         }
-
         size++;
     }
 

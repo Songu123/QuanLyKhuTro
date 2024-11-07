@@ -17,37 +17,47 @@ public class PhongController {
     public static void run() {
         while (true) {
             Menu.menuQuanLyPhong();
-            System.out.println("Vui lòng chọn chức năng (0-6): ");
-            int chon = Integer.parseInt(sc.nextLine());
-            switch (chon) {
-                case 1:
-                    addPhong();
-                    break;
-                case 2:
-                    updatePhong();
-                    break;
-                case 3:
-                    updateStatus();
-                    break;
-                case 4:
-                    listPhong.thongKePhongTrong();
-                    break;
-                case 5:
-                    printPhongWithStatus();
-                    break;
-                case 6:
-                    searchPhong();
-                    break;
-                case 7:
-                    printListPhong();
-                    break;
-                case 0:
-                    return;
-                default:
-                    System.out.println("Nhập sai! Vui lòng nhập lại (0-6)!");
+            System.out.print("Vui lòng chọn chức năng (0-8): ");
+            try {
+                int chon = Integer.parseInt(sc.nextLine());
+
+                switch (chon) {
+                    case 1:
+                        addPhong();
+                        break;
+                    case 2:
+                        updatePhong();
+                        break;
+                    case 3:
+                        updateStatus();
+                        break;
+                    case 4:
+                        listPhong.thongKePhongTrong();
+                        break;
+                    case 5:
+                        printPhongWithStatus();
+                        break;
+                    case 6:
+                        searchPhong();
+                        break;
+                    case 7:
+                        printListPhong();
+                        break;
+                    case 8:
+                        sortPhongWithGiaThue();
+                        break;
+                    case 0:
+                        System.out.println("Thoát chương trình.");
+                        return;
+                    default:
+                        System.out.println("Lựa chọn không hợp lệ! Vui lòng chọn số trong khoảng từ 0 đến 8.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Lỗi: Vui lòng nhập một số hợp lệ.");
             }
         }
     }
+
 
     public static Phong nhapThongTin() {
         System.out.println("hello các bạn");
@@ -156,7 +166,6 @@ public class PhongController {
         try {
             System.out.println("Nhập ID phòng tìm kiếm: ");
             id = Integer.parseInt(sc.nextLine());
-            hienThiTieuDePhong();
             listPhong.searchPhong(id);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -186,7 +195,7 @@ public class PhongController {
                 return;
             }
 
-            if (listPhong.searchPhong(id) == null){
+            if (listPhong.searchPhong(id) == null) {
 //                System.out.println("Không tìm thấy mã phòng tồn tại!");
                 return;
             }
@@ -223,7 +232,7 @@ public class PhongController {
     public static void printPhongWithStatus() {
         String trangThai = "";
         while (true) {
-            System.out.println("Nhập trạng thái: (1 - Phòng trống, 2 - Có người, 3 - Bị Hư)");
+            System.out.println("Nhập trạng thái: (1 - Phòng trống, 2 - Có người, 3 - Đang Bảo Trì)");
             int chon = sc.nextInt();
             sc.nextLine();
             switch (chon) {
@@ -234,7 +243,7 @@ public class PhongController {
                     trangThai = "Có Người";
                     break;
                 case 3:
-                    trangThai = "Bị Hư";
+                    trangThai = "Đang Bảo Trì";
                     break;
                 default:
                     System.out.println("Nhâp sai! Vui lòng nhập lại!");
@@ -256,5 +265,13 @@ public class PhongController {
 
     public static boolean checkPhongTrong() {
         return listPhong.checkPhongTrong();
+    }
+
+    public static void sortPhongWithGiaThue() {
+        if (listPhong.getSize() > 0) {
+            listPhong.mergeSort();
+        }else {
+            System.out.println("Danh sách phòng trống!");
+        }
     }
 }

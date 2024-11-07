@@ -39,7 +39,7 @@ public class DoublyLinkedListChiTietHoaDon {
             last = newNode;
         }
         size++;
-        System.out.println("Tạo hoá đơn thành công!");
+//        System.out.println("Tạo hoá đơn thành công!");
     }
 
     // Tìm kiếm hóa đơn theo mã
