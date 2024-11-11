@@ -10,6 +10,18 @@ public class HopDong {
     private LocalDate ngayKetThuc;
     private float giaThueHopDong;
     private float tienCoc;
+    private String trangThai;
+
+    public HopDong( int maPhong, int maNguoiThue, LocalDate ngayBatDau, LocalDate ngayKetThuc, float giaThueHopDong, float tienCoc, String trangThai) {
+        this.maHopDong = maHopDong;
+        this.maPhong = maPhong;
+        this.maNguoiThue = maNguoiThue;
+        this.ngayBatDau = ngayBatDau;
+        this.ngayKetThuc = ngayKetThuc;
+        this.giaThueHopDong = giaThueHopDong;
+        this.tienCoc = tienCoc;
+        this.trangThai = trangThai;
+    }
 
     public HopDong(int maPhong, int maNguoiThue, LocalDate ngayBatDau, LocalDate ngayKetThuc, float giaThueHopDong, float tienCoc) {
         this.maPhong = maPhong;
@@ -18,6 +30,14 @@ public class HopDong {
         this.ngayKetThuc = ngayKetThuc;
         this.giaThueHopDong = giaThueHopDong;
         this.tienCoc = tienCoc;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
     }
 
     public HopDong() {

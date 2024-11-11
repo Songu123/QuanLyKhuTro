@@ -229,6 +229,19 @@ public class PhongController {
         }
     }
 
+
+    public static void printListPhongWithStatus(String trangThai) {
+        try {
+            if (listPhong.getSize() > 0) {
+                listPhong.timKiemPhongTheoTrangThai(trangThai);
+            } else {
+                System.out.println("Danh sách phòng ròng!");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void printPhongWithStatus() {
         String trangThai = "";
         while (true) {

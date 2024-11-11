@@ -165,8 +165,10 @@ public class HopDongController {
             }
         }
 
+        String trangThai = "Hiệu Lực";
+
         // Tạo hợp đồng mới và thông báo
-        hopDong = new HopDong(maPhong, maNguoiThue, ngayBatDau, ngayKetThuc, giaThue, tienCoc);
+        hopDong = new HopDong(maPhong, maNguoiThue, ngayBatDau, ngayKetThuc, giaThue, tienCoc, trangThai);
         System.out.println("Đã nhập thành công thông tin hợp đồng!");
         System.out.println(hopDong);
 
@@ -193,10 +195,10 @@ public class HopDongController {
     }
 
     public static void hienThiTieuDeHopDong() {
-        System.out.println("+------------+------------+--------------+------------+------------+--------------+------------+");
-        System.out.printf("| %-10s | %-10s | %-12s | %-10s | %-10s | %-12s | %-10s |\n",
-                "MaHD", "MaPhong", "MaNguoiThue", "NgayBD", "NgayKT", "GiaThue", "TienCoc");
-        System.out.println("+------------+------------+--------------+------------+------------+--------------+------------+");
+        System.out.println("+------------+------------+--------------+------------+------------+--------------+------------+------------+");
+        System.out.printf("| %-10s | %-10s | %-12s | %-10s | %-10s | %-12s | %-10s | %-10s |\n",
+                "MaHD", "MaPhong", "MaNguoiThue", "NgayBD", "NgayKT", "GiaThue", "TienCoc", "TrangThai");
+        System.out.println("+------------+------------+--------------+------------+------------+--------------+------------+------------+");
     }
 
     public static void searchHopDong() {
@@ -216,8 +218,8 @@ public class HopDongController {
             System.out.println("Nhập ID Hợp Đồng muốn xoá: ");
             int id = Integer.parseInt(sc.nextLine());
 
-            listHopDong.deleteHopDong(id);
-            HopDongService.deleteHopDong(id);
+            listHopDong.disableHopDong(id);
+            HopDongService.disableHopDong(id);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

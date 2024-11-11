@@ -6,6 +6,8 @@ import project.quanlykhutro.services.HopDongService;
 
 import javax.xml.soap.Node;
 import java.lang.ref.PhantomReference;
+import java.time.LocalDate;
+
 
 public class DoublyLinkedListHopDong {
     private NodeHopDong first, last;
@@ -51,15 +53,15 @@ public class DoublyLinkedListHopDong {
 
         while (current != null) {
             if (current.data.getMaHopDong() == maHopDong) {
-                System.out.printf("| %-10d | %-10d | %-12d | %-10s | %-10s | %-12.2f | %-10.2f |\n",
+                System.out.printf("| %-10d | %-10d | %-12d | %-10s | %-10s | %-12.2f | %-10.2f | %-10s |\n",
                         current.data.getMaHopDong(),
                         current.data.getMaPhong(),
                         current.data.getMaNguoiThue(),
                         current.data.getNgayBatDau().toString(),
                         current.data.getNgayKetThuc().toString(),
                         current.data.getGiaThueHopDong(),
-                        current.data.getTienCoc());
-
+                        current.data.getTienCoc(),
+                        current.data.getTrangThai());
                 found = true;
                 break;
             }
@@ -77,14 +79,15 @@ public class DoublyLinkedListHopDong {
     public void printListHopDong() {
         NodeHopDong current = first;
         while (current != null) {
-            System.out.printf("| %-10d | %-10d | %-12d | %-10s | %-10s | %-12.2f | %-10.2f |\n",
+            System.out.printf("| %-10d | %-10d | %-12d | %-10s | %-10s | %-12.2f | %-10.2f | %-10s |\n",
                     current.data.getMaHopDong(),
                     current.data.getMaPhong(),
                     current.data.getMaNguoiThue(),
                     current.data.getNgayBatDau().toString(),
                     current.data.getNgayKetThuc().toString(),
                     current.data.getGiaThueHopDong(),
-                    current.data.getTienCoc());
+                    current.data.getTienCoc(),
+                    current.data.getTrangThai());
 
             current = current.next;
         }
@@ -120,10 +123,24 @@ public class DoublyLinkedListHopDong {
             current.prev.next = current.next;
             current.next.prev = current.prev;
         }
-
         size--;
         System.out.println("Xóa phòng có mã " + maHopDong + " thành công.");
     }
+
+    public void disableHopDong(int maHopDong) {
+        NodeHopDong current = searchHopDong(maHopDong);
+        System.out.println("hello");
+        // Nếu không tìm thấy hợp đồng với mã tương ứng
+        if (current == null) {
+            System.out.println("Không tìm thấy hợp đồng có mã: " + maHopDong);
+            return;
+        }
+
+        // Cập nhật trạng thái của hợp đồng thành "Vô hiệu" thay vì xóa
+        current.data.setTrangThai("Vô Hiệu");
+        System.out.println("Cập nhật trạng thái hợp đồng có mã " + maHopDong + " thành Vô hiệu thành công.");
+    }
+
 
     public void updateHopDong(int maHopDong, HopDong hopDongMoi) {
         NodeHopDong current = searchHopDong(maHopDong);
@@ -163,5 +180,13 @@ public class DoublyLinkedListHopDong {
 
         return current;
     }
+
+//    public void capNhatTrangThaiHopDong() {
+//        NodeHopDong current = first;
+//        while (current != null) {
+//            capNhatTrangThaiHopDongTrongDB(current.data);
+//            current = current.next;
+//        }
+//    }
 
 }
