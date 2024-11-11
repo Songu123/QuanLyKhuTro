@@ -1,6 +1,7 @@
 package project.quanlykhutro.services;
 
 import project.ctdl.DoublyLinkedListHopDong;
+import project.quanlykhutro.controller.HopDongController;
 import project.quanlykhutro.dao.DAO;
 import project.quanlykhutro.models.HopDong;
 import project.quanlykhutro.models.HopDong;
@@ -11,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -21,7 +23,7 @@ public class HopDongService {
     public DateFormat format  = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
     public static void addHopDong(HopDong hopDong){
-        String sql = "INSERT INTO HopDong (MaPhong, MaNguoiThue, NgayBatDau, NgayKetThuc, GiaThueHopDong, TienCoc) VALUES (?, ?, ?, ?, ?, ?)\n";
+        String sql = "INSERT INTO HopDong (MaPhong, MaNguoiThue, NgayBatDau, NgayKetThuc, GiaThueHopDong, TienCoc, TrangThai) VALUES (?, ?, ?, ?, ?, ?)\n";
         try{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, hopDong.getMaPhong());
@@ -30,6 +32,7 @@ public class HopDongService {
             ps.setDate(4, java.sql.Date.valueOf(hopDong.getNgayKetThuc()));
             ps.setFloat(5, hopDong.getGiaThueHopDong());
             ps.setFloat(6, hopDong.getTienCoc());
+            ps.setString(7, hopDong.getTrangThai());
             ps.executeUpdate();
 
         } catch (SQLException e) {
@@ -53,6 +56,7 @@ public class HopDongService {
                 hopDong.setNgayKetThuc(rs.getDate("NgayKetThuc").toLocalDate());
                 hopDong.setGiaThueHopDong(rs.getFloat("GiaThueHopDong"));
                 hopDong.setTienCoc(rs.getFloat("TienCoc"));
+                hopDong.setTrangThai(rs.getString("TrangThai"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -74,6 +78,7 @@ public class HopDongService {
                 hopDong.setNgayKetThuc(rs.getDate("NgayKetThuc").toLocalDate());
                 hopDong.setGiaThueHopDong(rs.getFloat("GiaThueHopDong"));
                 hopDong.setTienCoc(rs.getFloat("TienCoc"));
+                hopDong.setTrangThai(rs.getString("TrangThai"));
                 listHopDong.addLast(hopDong);
             }
         } catch (SQLException e) {
@@ -98,21 +103,22 @@ public class HopDongService {
         }
     }
 
-    public static void deleteHopDong(int maHopDong) {
-        String sql = "DELETE FROM HopDong WHERE MaHopDong = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, maHopDong);
+    public static void disableHopDong(int maHopDong) {
+        String sql = "UPDATE HopDong SET trangThai = ? WHERE MaHopDong = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "Vô Hiệu"); // Cập nhật trạng thái thành 'Vô hiệu'
+            ps.setInt(2, maHopDong);
 
             if (ps.executeUpdate() > 0) {
-                System.out.println("Xoá hợp đồng thành công!");
-            }else  {
-                System.out.println("Xoá hợp đồng không thành công!");
+                System.out.println("Cập nhật trạng thái hợp đồng thành Vô hiệu thành công!");
+            } else {
+                System.out.println("Không tìm thấy hợp đồng để cập nhật!");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Lỗi khi cập nhật trạng thái hợp đồng: " + e.getMessage());
         }
     }
+
 
     public static HopDong getLastRow() {
         String sql = "SELECT * FROM HopDong ORDER BY MaHopDong DESC LIMIT 1;";
@@ -163,4 +169,25 @@ public class HopDongService {
         }
     }
 
+//    public static boolean capNhatTrangThaiHopDongTrongDB(HopDong hopDong) {
+//        String sql = "UPDATE HopDong SET TrangThai = ? WHERE MaHopDong = ?;";
+//        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//
+//            if (hopDong != null) {
+//                // Xác định trạng thái dựa trên ngày hết hạn
+//                if (hopDong.getNgayKetThuc().isBefore(LocalDate.now())) {
+//                    ps.setString(1, "Hết Hạn");
+//                } else {
+//                    ps.setString(1, "Hợp Lệ");
+//                }
+//                ps.setInt(2, hopDong.getMaHopDong()); // Thiết lập MaHopDong để cập nhật
+//
+//                int rowsAffected = ps.executeUpdate();
+//                return rowsAffected > 0; // Trả về true nếu cập nhật thành công
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace(); // Xử lý ngoại lệ
+//        }
+//        return false; // Trả về false nếu cập nhật không thành công
+//    }
 }

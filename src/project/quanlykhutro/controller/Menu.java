@@ -55,7 +55,7 @@ public class Menu {
         System.out.println("| 1. Thêm dịch vụ                                   |");
         System.out.println("| 2. Sửa dịch vụ                                    |");
         System.out.println("| 3. Cập nhật trạng thái dịch vụ                    |");
-        System.out.println("| 4. Tìm kiếm dịch vụ                               |");
+        System.out.println("| 4. Tìm kiếm dịch vụ(Đệ quy)                       |");
         System.out.println("| 5. Hiển thị danh sách dịch vụ                     |");
         System.out.println("| 6. Sắp xếp danh sách dịch vụ theo giá(Bubble Sort)|");
         System.out.println("| 0. Thoát                                          |");

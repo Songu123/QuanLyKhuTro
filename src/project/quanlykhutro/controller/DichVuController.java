@@ -129,6 +129,7 @@ public class DichVuController {
             hienThiTieuDeDichVu();
 //            listDichVu.searchDichVu(id);
             listDichVu.hienThiDichVu(listDichVu.searchDichVuDeQuy(id));
+            System.out.println("+------------+----------------------+------------+------------+");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

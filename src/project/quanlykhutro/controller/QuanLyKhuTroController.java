@@ -46,21 +46,21 @@ public class QuanLyKhuTroController {
     }
 
     public static void menuBaoCaoThongKe() {
-        System.out.println("+---------------------------------------------------+");
-        System.out.println("|               BÁO CÁO DOANH THU & THỐNG KÊ        |");
-        System.out.println("+---------------------------------------------------+");
-        System.out.println("| 1. Xem báo cáo doanh thu theo tháng               |");
-        System.out.println("| 2. Xem báo cáo doanh thu theo năm                 |");
-        System.out.println("| 3. Xuất báo cáo doanh thu                         |");
-        System.out.println("| 4. Thống kê số phòng trống                        |");
-        System.out.println("| 5. Thống kê số phòng đã thuê                      |");
-        System.out.println("| 6. Thống kê số phòng đang bảo trì                 |");
-        System.out.println("| 0. Thoát                                          |");
-        System.out.println("+---------------------------------------------------+");
-
         Scanner sc = new Scanner(System.in);
         int choice;
         do {
+            System.out.println("+---------------------------------------------------+");
+            System.out.println("|               BÁO CÁO DOANH THU & THỐNG KÊ        |");
+            System.out.println("+---------------------------------------------------+");
+            System.out.println("| 1. Xem báo cáo doanh thu theo tháng               |");
+            System.out.println("| 2. Xem báo cáo doanh thu theo năm                 |");
+            System.out.println("| 3. Xuất báo cáo doanh thu                         |");
+            System.out.println("| 4. Thống kê số phòng trống                        |");
+            System.out.println("| 5. Thống kê số phòng đã thuê                      |");
+            System.out.println("| 6. Thống kê số phòng đang bảo trì                 |");
+            System.out.println("| 0. Thoát                                          |");
+            System.out.println("+---------------------------------------------------+");
+
             System.out.print("Chọn chức năng (0-6): ");
             choice = Integer.parseInt(sc.nextLine());
 
@@ -111,16 +111,19 @@ public class QuanLyKhuTroController {
     public static void thongKePhongTrong() {
         // Xử lý thống kê số phòng trống
         System.out.println("Thống kê số phòng trống.");
+        PhongController.printListPhongWithStatus("Phòng Trống");
     }
 
     public static void thongKePhongDaThue() {
         // Xử lý thống kê số phòng đã thuê
         System.out.println("Thống kê số phòng đã thuê.");
+        PhongController.printListPhongWithStatus("Có Người");
     }
 
     public static void thongKePhongBaoTri() {
         // Xử lý thống kê số phòng đang bảo trì
         System.out.println("Thống kê số phòng đang bảo trì.");
+        PhongController.printListPhongWithStatus("Đang Bảo Trì");
     }
 
 }
