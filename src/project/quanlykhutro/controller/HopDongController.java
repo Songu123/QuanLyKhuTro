@@ -215,7 +215,7 @@ public class HopDongController {
 
     public static void deleteHopDong() {
         try {
-            System.out.println("Nhập ID Hợp Đồng muốn xoá: ");
+            System.out.println("Nhập ID Hợp Đồng muốn huỷ: ");
             int id = Integer.parseInt(sc.nextLine());
 
             listHopDong.disableHopDong(id);
@@ -359,7 +359,7 @@ public class HopDongController {
         System.out.println("Ngày sinh: " + nguoiThue.getNgaySinh());
         System.out.println("Giới tính: " + nguoiThue.getGioiTinh());
         System.out.println("Địa chỉ: " + nguoiThue.getDiaChi());
-        System.out.println("Số điện thoại: " + nguoiThue.getSoDienThoai());
+        System.out.println("Số điện thoại: " + nguoiThue.getSoDienThoai() +" đồng");
 
         System.out.println("+-----------------------------------------------------------+");
     }

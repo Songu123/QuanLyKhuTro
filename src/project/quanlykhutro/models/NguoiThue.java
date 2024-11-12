@@ -1,7 +1,6 @@
 package project.quanlykhutro.models;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class NguoiThue {
     private int maNguoiThue;
@@ -12,10 +11,12 @@ public class NguoiThue {
     private String soDienThoai;
     private String trangThai;
 
-
+    // Constructor không tham số
     public NguoiThue() {
+//        this.trangThai = "Đang Chờ"; // giá trị mặc định
     }
 
+    // Constructor có đầy đủ tham số bao gồm mã người thuê
     public NguoiThue(int maNguoiThue, String ten, LocalDate ngaySinh, String gioiTinh, String diaChi, String soDienThoai, String trangThai) {
         this.maNguoiThue = maNguoiThue;
         this.ten = ten;
@@ -26,39 +27,27 @@ public class NguoiThue {
         this.trangThai = trangThai;
     }
 
-
+    // Constructor không bao gồm mã người thuê
     public NguoiThue(String ten, LocalDate ngaySinh, String gioiTinh, String diaChi, String soDienThoai, String trangThai) {
         this.ten = ten;
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
+        this.trangThai = trangThai;
     }
 
+    // Constructor mặc định trạng thái "Đang Chờ"
     public NguoiThue(String ten, LocalDate ngaySinh, String gioiTinh, String diaChi, String soDienThoai) {
         this.ten = ten;
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
+        this.trangThai = "Đang Chờ"; // giá trị mặc định
     }
 
-    public String getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(String trangThai) {
-        this.trangThai = trangThai;
-    }
-
-    public String getGioiTinh() {
-        return gioiTinh;
-    }
-
-    public void setGioiTinh(String gioiTinh) {
-        this.gioiTinh = gioiTinh;
-    }
-
+    // Các getter và setter
     public int getMaNguoiThue() {
         return maNguoiThue;
     }
@@ -83,6 +72,14 @@ public class NguoiThue {
         this.ngaySinh = ngaySinh;
     }
 
+    public String getGioiTinh() {
+        return gioiTinh;
+    }
+
+    public void setGioiTinh(String gioiTinh) {
+        this.gioiTinh = gioiTinh;
+    }
+
     public String getDiaChi() {
         return diaChi;
     }
@@ -97,5 +94,26 @@ public class NguoiThue {
 
     public void setSoDienThoai(String soDienThoai) {
         this.soDienThoai = soDienThoai;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    @Override
+    public String toString() {
+        return "NguoiThue{" +
+                "maNguoiThue=" + maNguoiThue +
+                ", ten='" + ten + '\'' +
+                ", ngaySinh=" + ngaySinh +
+                ", gioiTinh='" + gioiTinh + '\'' +
+                ", diaChi='" + diaChi + '\'' +
+                ", soDienThoai='" + soDienThoai + '\'' +
+                ", trangThai='" + trangThai + '\'' +
+                '}';
     }
 }

@@ -85,7 +85,7 @@ public class DoublyLinkedListDichVu {
         return searchDichVuDeQuy(first, maDichVu);
     }
 
-//    Dùng thuật toán đệ quy để tìm kiếm
+    //    Dùng thuật toán đệ quy để tìm kiếm
     public NodeDichVu searchDichVuDeQuy(NodeDichVu nodeDichVu, int maDichVu) {
         if (nodeDichVu == null) {
             return null;
@@ -101,7 +101,9 @@ public class DoublyLinkedListDichVu {
     public void duyetListDichVu(int maHoaDon) {
         NodeDichVu current = first;
         while (current != null) {
-            ChiTietHoaDonController.nhapSoLuongDichVu(current, maHoaDon);
+            if (current.data.getTrangThai().equals("Hoạt Động")) {
+                ChiTietHoaDonController.nhapSoLuongDichVu(current, maHoaDon);
+            }
             current = current.next;
         }
     }
@@ -109,12 +111,17 @@ public class DoublyLinkedListDichVu {
     public void printListDichVu() {
         NodeDichVu current = first; // Giả sử 'first' là nút đầu tiên của danh sách
         while (current != null) {
-            // In từng dịch vụ với định dạng bảng, bao gồm trạng thái
-            System.out.printf("| %-10d | %-20s | %-10.2f | %-10s |\n",
-                    current.data.getMaDichVu(),
-                    current.data.getTenDichVu(),
-                    current.data.getDonGia(),
-                    current.data.getTrangThai()); // Thêm trạng thái vào đây
+            while (current != null) {
+                System.out.printf("| %-10d | %-20s | %10.2f | %-10s |\n",
+                        current.data.getMaDichVu(),
+                        current.data.getTenDichVu(),
+                        current.data.getDonGia(),
+                        current.data.getTrangThai());
+                current = current.next;
+            }
+
+            System.out.println("+------------+----------------------+------------+------------+");
+
             current = current.next; // Di chuyển đến nút tiếp theo
         }
         System.out.println("+------------+----------------------+------------+------------+"); // In dòng dưới cùng
@@ -170,7 +177,7 @@ public class DoublyLinkedListDichVu {
         System.out.println("Cập nhật phòng có mã " + maDichVu + " thành công.");
     }
 
-//    Dùng thuật toán sắp xếp nổi bọt để sắp xếp
+    //    Dùng thuật toán sắp xếp nổi bọt để sắp xếp
     public void bubbleSort() {
         if (first == null) return;
 

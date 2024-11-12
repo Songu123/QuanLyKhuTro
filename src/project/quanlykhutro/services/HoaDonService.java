@@ -71,19 +71,18 @@ public class HoaDonService {
         return idHoaDon;
     }
 
-    public HoaDon getHoaDonById(int maHoaDon) {
+    public static HoaDon getHoaDonById(int maHoaDon) {
         HoaDon hoaDon = null;
         String sql = "SELECT * FROM HoaDon WHERE MaHoaDon = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, maHoaDon);
-            ps.executeUpdate();
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 hoaDon = new HoaDon();
                 hoaDon.setMaHoaDon(rs.getInt("MaHoaDon"));
                 hoaDon.setMaHopDong(rs.getInt("MaHopDong"));
                 hoaDon.setNgayPhatHanh(rs.getDate("NgayPhatHanh").toLocalDate());
-                hoaDon.setNgayDenHan(rs.getDate("NgayBatDau").toLocalDate());
+                hoaDon.setNgayDenHan(rs.getDate("NgayDenHan").toLocalDate());
                 hoaDon.setTongTien(rs.getFloat("TongTien"));
                 hoaDon.setTrangThai(rs.getString("TrangThai"));
             }

@@ -1,5 +1,6 @@
 package project.ctdl;
 
+import project.quanlykhutro.models.DoanhThu;
 import project.quanlykhutro.models.HoaDon;
 import project.quanlykhutro.models.HoaDon;
 import project.quanlykhutro.services.HoaDonService;
@@ -154,28 +155,56 @@ public class DoublyLinkedListHoaDon {
         System.out.println("Cập nhật hoá đơn có mã " + maHoaDon + " thành công.");
     }
 
-//    Hàm lấy danh sách nợ
-public void printHoaDonNo() {
-    NodeHoaDon current = first;
-    System.out.println("+------------+----------------------+------------+");
-    while (current != null) {
-        String trangThai = current.data.getTrangThai();
+    //    Hàm lấy danh sách nợ
+    public void printHoaDonNo() {
+        NodeHoaDon current = first;
+        System.out.println("+------------+----------------------+------------+------------+------------+---------------+");
+        System.out.printf("| %-10s | %-20s | %-10s | %-10s | %-10s | %-15s |\n",
+                "MaHoaDon", "MaHopDong", "NgayPhatHanh", "NgayDenHan", "TongTien", "TrangThai");
+        System.out.println("+------------+----------------------+------------+------------+------------+---------------+");
 
-        // Kiểm tra nếu trạng thái là "Quá Hạn" hoặc "Chưa Thanh Toán"
-        if (trangThai.equalsIgnoreCase("Quá Hạn") || trangThai.equalsIgnoreCase("Chưa Thanh Toán")) {
-            System.out.printf("| %-10d | %-20d | %-10s | %-10s | %-10.2f | %-15s |\n",
-                    current.data.getMaHoaDon(),
-                    current.data.getMaHopDong(),
-                    current.data.getNgayPhatHanh(),
-                    current.data.getNgayDenHan(),
-                    current.data.getTongTien(),
-                    current.data.getTrangThai());
+        while (current != null) {
+            String trangThai = current.data.getTrangThai();
+
+            // Kiểm tra nếu trạng thái là "Quá Hạn" hoặc "Chưa Thanh Toán"
+            if (trangThai.equalsIgnoreCase("Quá Hạn") || trangThai.equalsIgnoreCase("Chưa Thanh Toán")) {
+                System.out.printf("| %-10d | %-20d | %-10s | %-10s | %-10.2f | %-15s |\n",
+                        current.data.getMaHoaDon(),
+                        current.data.getMaHopDong(),
+                        current.data.getNgayPhatHanh(),
+                        current.data.getNgayDenHan(),
+                        current.data.getTongTien(),
+                        current.data.getTrangThai());
+            }
+
+            current = current.next;
         }
+        System.out.println("+------------+----------------------+------------+");
 
-        current = current.next;
     }
-    System.out.println("+------------+----------------------+------------+");
-}
 
+    //  Hàm lấy thông tin theo tháng
+    public DoanhThu printHoaDonByMonth(int month) {
+        DoanhThu doanhThu = new DoanhThu();
+        double tongDoanhThu = 0;
+        int soLuongHoaDon = 0;
+        double soTienDaThanhToan = 0;
+        double soTienChuaThanhToan = 0;
+        NodeHoaDon current = first;
+        while (current != null) {
+            if (current.data.getNgayPhatHanh().getMonthValue() == month) {
+                if (current.data.getTrangThai().equalsIgnoreCase("Đã Thanh Toán")) {
+                    soTienDaThanhToan += current.data.getTongTien();
+                } else {
+                    soTienChuaThanhToan += current.data.getTongTien();
+                }
+                tongDoanhThu += current.data.getTongTien();
+                soLuongHoaDon++;
+            }
+            current = current.next;
+        }
+        doanhThu = new DoanhThu(String.valueOf(month), tongDoanhThu, soLuongHoaDon, soTienDaThanhToan, soTienChuaThanhToan);
+        return doanhThu;
+    }
 
 }
