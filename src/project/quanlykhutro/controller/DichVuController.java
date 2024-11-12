@@ -42,7 +42,7 @@ public class DichVuController {
                         sortWithPrice();
                         break;
                     case 0:
-                        break;
+                        return;
                     default:
                         System.out.println("Nhập sai! Vui lòng nhập lại (0-6)!");
                 }
@@ -137,10 +137,11 @@ public class DichVuController {
 
     public static void updateStatus() {
         try {
-            System.out.print("Nhập ID Phòng muốn cập nhật trạng thái: ");
+            printListDichVu();
+            System.out.print("Nhập ID Dịch vụ muốn cập nhật trạng thái: ");
             int id = Integer.parseInt(sc.nextLine().trim()); // Loại bỏ khoảng trắng thừa
 
-            if (listDichVu.searchDichVuDeQuy(id) != null) { // Giả sử bạn có một phương thức để kiểm tra ID
+            if (listDichVu.searchDichVuDeQuy(id) == null) { // Giả sử bạn có một phương thức để kiểm tra ID
                 System.out.println("ID phòng không tồn tại. Vui lòng kiểm tra lại.");
                 return;
             }

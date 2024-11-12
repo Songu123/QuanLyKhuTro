@@ -10,7 +10,6 @@ public class Menu {
         System.out.println("| 2. Quản lý người thuê                             |");
         System.out.println("| 3. Quản lý dịch vụ                                |");
         System.out.println("| 4. Quản lý thuê phòng                             |");
-//        System.out.println("| 5. Quản lý trả phòng                              |");
         System.out.println("| 5. Quản lý hoá đơn                                |");
         System.out.println("| 6. Báo cáo và thống kê                            |");
         System.out.println("| 0. Thoát                                          |");
@@ -71,7 +70,7 @@ public class Menu {
         System.out.println("| 3. Gia hạn hợp đồng                               |");
         System.out.println("| 4. Tìm kiếm hợp đồng                              |");
         System.out.println("| 5. Chỉnh sửa hợp đồng                             |");
-        System.out.println("| 6. Xóa hợp đồng                                   |");
+        System.out.println("| 6. Huỷ hợp đồng                                   |");
         System.out.println("| 7. Xuất thông tin hợp đồng ra file                |");
         System.out.println("| 8. Xem chi tiết hợp đồng                          |");
         System.out.println("| 0. Quay lại                                       |");
@@ -90,4 +89,5 @@ public class Menu {
         System.out.println("| 0. Quay lại                                       |");
         System.out.println("+---------------------------------------------------+");
     }
+
 }

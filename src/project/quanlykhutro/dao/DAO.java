@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class DAO {
     public static Connection conn;
     private static String DB_URL = "jdbc:mysql://localhost:3306/quanlykhutro";
-    private static String USER_NAME = "root";
-    private static String PASSWORD = "";
+    private static String USER_NAME = "vanson";
+    private static String PASSWORD = "vanson@1234";
 
     public Connection connectionDB() {
         try {

@@ -89,7 +89,7 @@ public class DoublyLinkedListChiTietHoaDon {
         while (current != null) {
             if (current.data.getMaHoaDon() == maHoaDon) {
                 String tenDichVu = DichVuController.getNameDichVu(current.data.getMaDichVu());
-                System.out.printf("| %-10d | %-10s | %-10.2f | %-10.2f | %-10.2f |\n",
+                System.out.printf("| %-10d | %-10s | %10.2f | %10.2f | %10.2f |\n",
                         current.data.getMaHoaDon(),
                         tenDichVu,
                         current.data.getSoLuong(),
@@ -100,6 +100,7 @@ public class DoublyLinkedListChiTietHoaDon {
         }
 
         System.out.println("+------------+------------+------------+------------+------------+");
+
     }
 
 

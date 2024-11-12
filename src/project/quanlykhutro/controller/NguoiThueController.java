@@ -152,9 +152,12 @@ public class NguoiThueController {
             }
         }
 
-        if (tenHam.equals("Create")) {
-            nguoiThue = new NguoiThue(ten, ngaySinh, gioiTinh, diaChi, soDienThoai, "Đang Chờ");
-        } else if (tenHam.equals("Update")) {
+        String trangThai = " ";
+        trangThai = "Đang Chờ";
+
+        if ("Create".equals(tenHam)) {
+            nguoiThue = new NguoiThue(ten, ngaySinh, gioiTinh, diaChi, soDienThoai, trangThai);
+        } else if ("Update".equals(tenHam)) {
             nguoiThue = new NguoiThue(ten, ngaySinh, gioiTinh, diaChi, soDienThoai);
         }
 

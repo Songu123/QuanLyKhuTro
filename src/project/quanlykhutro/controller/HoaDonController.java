@@ -2,6 +2,7 @@ package project.quanlykhutro.controller;
 
 import project.ctdl.DoublyLinkedListChiTietHoaDon;
 import project.ctdl.DoublyLinkedListHoaDon;
+import project.quanlykhutro.models.DoanhThu;
 import project.quanlykhutro.models.HoaDon;
 import project.quanlykhutro.services.HoaDonService;
 import project.quanlykhutro.services.HopDongService;
@@ -184,9 +185,9 @@ public class HoaDonController {
     }
 
     public static float tinhTongTien(int maHoaDon, int maHopDong) {
-        System.out.println("Ma Hoá đơn " + maHoaDon);
-        System.out.println("Tổng tiền thanh toán chi tiết dịch vuj: " + ChiTietHoaDonController.tinhTongThanhToan(maHoaDon));
-        System.out.println("Tiền thuê phòng: " + HopDongController.getGiaThue(maHopDong));
+        System.out.println("Mã Hoá đơn " + maHoaDon);
+        System.out.println("Tổng tiền thanh toán chi tiết dịch vụ: " + ChiTietHoaDonController.tinhTongThanhToan(maHoaDon) + " VND");
+        System.out.println("Tiền thuê phòng: " + HopDongController.getGiaThue(maHopDong) + " VND");
         return ChiTietHoaDonController.tinhTongThanhToan(maHoaDon) + HopDongController.getGiaThue(maHopDong);
     }
 
@@ -241,7 +242,9 @@ public class HoaDonController {
     public static void updateHoaDon(HoaDon hoaDon) {
 //        hoaDon.setNgayDenHan(hoaDon.getNgayPhatHanh());
         hoaDon.setTrangThai(nhapTrangThai());
-        hoaDon.setTongTien(tinhTongTien(hoaDon.getMaHoaDon(), hoaDon.getMaHopDong()));
+        float tongTien = tinhTongTien(hoaDon.getMaHoaDon(), hoaDon.getMaHopDong());
+        hoaDon.setTongTien(tongTien);
+        System.out.println("Tổng tiền: " + tongTien + " VND");
         HoaDonService.capNhatThongTinHoaDon(HoaDonService.getIdLastRow(), hoaDon.getNgayDenHan(), hoaDon.getTongTien(), hoaDon.getTrangThai());
     }
 
@@ -252,8 +255,12 @@ public class HoaDonController {
 
     // Hàm thống kê nợ
     public static void thongKeNo() {
-        // Implement chức năng thống kê nợ nếu cần
-        System.out.println("Chức năng thống kê nợ đang được phát triển.");
+        listHoaDon.printHoaDonNo();
     }
+
+    public static DoanhThu getHoaDonByThang(int month) {
+        return listHoaDon.printHoaDonByMonth(month);
+    }
+
 }
 

@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
-
+//    NguoiThueController.run();
 //        DichVuController.run();
         QuanLyKhuTroController.run();
 //        PhongController.run();
@@ -20,6 +20,7 @@ public class Main {
 //        HoaDonController.run();
 //        DoublyLinkedListChiTietHoaDon listChiTietHoaDon = new DoublyLinkedListChiTietHoaDon();
 //        System.out.println(listChiTietHoaDon.tinhTongTien(30));
+//        QuanLyKhuTroController.logIn();
     }
 
 
