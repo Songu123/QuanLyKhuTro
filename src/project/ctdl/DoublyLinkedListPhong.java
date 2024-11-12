@@ -42,7 +42,7 @@ public class DoublyLinkedListPhong {
             last = newNode;
         }
         size++;
-        System.out.println("Them phong thanh cong!");
+//        System.out.println("Them phong thanh cong!");
     }
 
     public NodePhong searchPhong(int maPhong) {

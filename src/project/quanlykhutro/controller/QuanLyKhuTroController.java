@@ -72,10 +72,9 @@ public class QuanLyKhuTroController {
             System.out.println("+---------------------------------------------------+");
             System.out.println("| 1. Xem báo cáo doanh thu theo tháng               |");
             System.out.println("| 2. Xem báo cáo doanh thu theo năm                 |");
-            System.out.println("| 3. Xuất báo cáo doanh thu                         |");
-            System.out.println("| 4. Thống kê số phòng trống                        |");
-            System.out.println("| 5. Thống kê số phòng đã thuê                      |");
-            System.out.println("| 6. Thống kê số phòng đang bảo trì                 |");
+            System.out.println("| 3. Thống kê số phòng trống                        |");
+            System.out.println("| 4. Thống kê số phòng đã thuê                      |");
+            System.out.println("| 5. Thống kê số phòng đang bảo trì                 |");
             System.out.println("| 0. Thoát                                          |");
             System.out.println("+---------------------------------------------------+");
 
@@ -90,15 +89,12 @@ public class QuanLyKhuTroController {
                     xemBaoCaoDoanhThuTheoNam();
                     break;
                 case 3:
-                    xuatBaoCaoDoanhThu();
-                    break;
-                case 4:
                     thongKePhongTrong();
                     break;
-                case 5:
+                case 4:
                     thongKePhongDaThue();
                     break;
-                case 6:
+                case 5:
                     thongKePhongBaoTri();
                     break;
                 case 0:
@@ -132,12 +128,6 @@ public class QuanLyKhuTroController {
         // Xử lý xem báo cáo doanh thu theo năm
         System.out.println("Xem báo cáo doanh thu theo năm.");
     }
-
-    public static void xuatBaoCaoDoanhThu() {
-        // Xử lý xuất báo cáo doanh thu
-        System.out.println("Xuất báo cáo doanh thu.");
-    }
-
     public static void thongKePhongTrong() {
         // Xử lý thống kê số phòng trống
         System.out.println("Thống kê số phòng trống.");

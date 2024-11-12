@@ -88,7 +88,7 @@ public class NguoiThueService {
                 nguoiThue.setTrangThai(rs.getString("TrangThai"));
 
                 listNguoiThue.addLast(nguoiThue);
-                System.out.println("Thêm thành công!");
+//                System.out.println("Thêm thành công!");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

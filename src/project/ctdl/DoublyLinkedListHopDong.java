@@ -44,7 +44,7 @@ public class DoublyLinkedListHopDong {
             last = newNode;
         }
         size++;
-        System.out.println("Thêm hợp đồng thành công!");
+//        System.out.println("Thêm hợp đồng thành công!");
     }
 
     public NodeHopDong searchHopDong(int maHopDong) {
