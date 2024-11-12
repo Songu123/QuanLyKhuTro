@@ -41,7 +41,7 @@ public class DoublyLinkedListNguoiThue {
             last = newNode;
         }
         size++;
-        System.out.println("Them nguoiThue thanh cong!");
+//        System.out.println("Them nguoiThue thanh cong!");
     }
 
     public NodeNguoiThue searchNguoiThue(int maNguoiThue) {
